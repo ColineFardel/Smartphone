@@ -1,6 +1,8 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -67,4 +69,17 @@ public class BaseFrame extends JFrame{
 		}
 	}
 	
+	public ArrayList<Contact> readContacts(){
+		ArrayList<Contact> contacts= new ArrayList<Contact>();
+		
+		try {
+			FileInputStream in = new FileInputStream("contacts.ser");
+			ObjectInputStream ois = new ObjectInputStream( in );
+			contacts = (ArrayList<Contact>) ois.readObject();
+			ois.close();
+			} catch(Exception e) {
+				System.out.println("Prout");
+			}
+		return contacts;
+	}
 }
