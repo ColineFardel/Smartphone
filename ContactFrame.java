@@ -1,11 +1,15 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 06.05.2019
+ * Date last modification: 14.05.2019
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
+import javax.swing.event.*;
 
 public class ContactFrame extends BaseFrame{
 	
@@ -17,9 +21,11 @@ public class ContactFrame extends BaseFrame{
 	
 	private JPanel screen = new JPanel();
 	private JPanel topJPanel = new JPanel();
-	private JLabel title = new JLabel("Contacts");
-	private JScrollPane scrollPane;
 	private JPanel testJPanel = new JPanel();
+	
+	private JLabel title = new JLabel("Contacts");
+	
+	private JScrollPane scrollPane;
 	
 	public ContactFrame() {
 		screen.setLayout(new GridBagLayout());
@@ -32,21 +38,26 @@ public class ContactFrame extends BaseFrame{
 		
 		list=  new JList(listModel);
 		
+		plusButton.setOpaque(false);
+		plusButton.setContentAreaFilled(false);
+		plusButton.setBorderPainted(false);
 		plusButton.setPreferredSize(new Dimension(40,40));
 		plusButton.addActionListener(new PlusListener());
 		
-		topJPanel.setLayout(new FlowLayout());
 		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 60));
+		
+		topJPanel.setLayout(new FlowLayout());
+		topJPanel.setPreferredSize(new Dimension(LARGEUR,80));
+		topJPanel.setBackground(Color.WHITE);
 		topJPanel.add(title);
 		topJPanel.add(plusButton);
-		topJPanel.setPreferredSize(new Dimension(LARGEUR,80));
+		
 		
 		par.gridx = 0;
 		par.gridy = 0;
 		
 		screen.add(topJPanel,par);
 		
-		list.setPreferredSize(new Dimension(LARGEUR,500));
 		list.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 40));
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
@@ -60,7 +71,6 @@ public class ContactFrame extends BaseFrame{
 	        // To avoid double value selected
 	        if (evt.getValueIsAdjusting())
 	                  return;
-	        System.out.println("Selected: " + list.getSelectedValue());
 	        JFrame frame = new InfosFrame((String)list.getSelectedValue());
 			frame.setVisible(true);
 			dispose();
@@ -71,7 +81,7 @@ public class ContactFrame extends BaseFrame{
 		scrollPane= new JScrollPane(list);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
-		scrollPane.setPreferredSize(new Dimension(LARGEUR,1000));
+		scrollPane.setPreferredSize(new Dimension(LARGEUR,600));
 		
 		testJPanel.setLayout(new FlowLayout());
 		testJPanel.setPreferredSize(new Dimension(LARGEUR,600));

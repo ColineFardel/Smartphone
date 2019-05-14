@@ -1,12 +1,20 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 30.04.2019
+ * Date last modification: 14.05.2019
+ */
 import java.awt.*;
 import java.awt.event.*;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class BaseFrame extends JFrame{
+
+	protected final int LARGEUR = 480;
+	
+	protected GridBagConstraints par = new GridBagConstraints();
 
 	private JPanel topPanel= new JPanel();
 	private JPanel botPannel= new JPanel();
@@ -15,10 +23,6 @@ public class BaseFrame extends JFrame{
 	//<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	private JButton closeButton = new JButton(new ImageIcon("C:\\Users\\colin\\Dropbox\\Mes Dossiers\\Semestre 2\\ProjetPOO\\Smartphone\\src\\power2.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/<?=_('authors').'/'?>freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	
-	protected final int LARGEUR = 480;
-	
-	protected GridBagConstraints par = new GridBagConstraints();
 	
 	public BaseFrame(){		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,10 +44,14 @@ public class BaseFrame extends JFrame{
 		
 		homeButton.addActionListener(new HomeListener());
 		homeButton.setPreferredSize(new Dimension(40,40));
+		homeButton.setOpaque(false);
+		homeButton.setContentAreaFilled(false);
+		homeButton.setBorderPainted(false);
 		botPannel.add(homeButton);
 		
 		closeButton.addActionListener(new CloseListener());
 		closeButton.setPreferredSize(new Dimension(40,40));
+		closeButton.setBackground(Color.BLACK);
 		botPannel.add(closeButton);
 		
 		//setBackground(new Color(0,0,0,0));
@@ -81,5 +89,17 @@ public class BaseFrame extends JFrame{
 				System.out.println("Prout");
 			}
 		return contacts;
+	}
+	
+	public void writeContacts(ArrayList<Contact> contacts){
+		try {
+			FileOutputStream out = new FileOutputStream("contacts.ser");
+			ObjectOutputStream oos = new ObjectOutputStream( out );
+			oos.writeObject(contacts);
+			oos.close();
+			}
+			catch(Exception e) {
+				System.out.println("Prout");
+			}
 	}
 }

@@ -1,3 +1,9 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 23.04.2019
+ * Date last modification: 14.05.2019
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -26,10 +32,17 @@ public class HomeFrame extends BaseFrame{
 		
 		contactButton.addActionListener(new ContactListener());
 		contactButton.setPreferredSize(new Dimension(80,80));
+		contactButton.setOpaque(false);
+		contactButton.setContentAreaFilled(false);
+		contactButton.setBorderPainted(false);
+
 		screen.add(contactButton);
 		
 		galleryButton.addActionListener(new GalleryListener());
 		galleryButton.setPreferredSize(new Dimension(80,80));
+		galleryButton.setOpaque(false);
+		galleryButton.setContentAreaFilled(false);
+		galleryButton.setBorderPainted(false);
 		screen.add(galleryButton);
 		
 		par.gridx = 0;

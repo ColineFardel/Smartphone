@@ -1,3 +1,9 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 06.05.2019
+ * Date last modification: 14.05.2019
+ */
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 

@@ -1,8 +1,13 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 06.05.2019
+ * Date last modification: 14.05.2019
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class AddContactFrame extends BaseFrame{
@@ -51,7 +56,7 @@ public class AddContactFrame extends BaseFrame{
 			Contact contact = new Contact(nomField.getText(),prenomField.getText(),numField.getText());
 			contacts.add(contact);
 			
-			write(contacts);
+			writeContacts(contacts);
 			
 			JFrame frame = new ContactFrame();
 			frame.setVisible(true);
@@ -64,16 +69,5 @@ public class AddContactFrame extends BaseFrame{
 			frame.setVisible(true);
 			dispose();
 		}
-	}
-	public void write(ArrayList<Contact> contacts){
-		try {
-			FileOutputStream out = new FileOutputStream("contacts.ser");
-			ObjectOutputStream oos = new ObjectOutputStream( out );
-			oos.writeObject(contacts);
-			oos.close();
-			}
-			catch(Exception e) {
-				System.out.println("Prout");
-			}
 	}
 }

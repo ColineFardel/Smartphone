@@ -1,3 +1,9 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 23.04.2019
+ * Date last modification: 30.04.2019
+ */
 import java.awt.*;
 import java.io.*;
 import javax.imageio.ImageIO;
