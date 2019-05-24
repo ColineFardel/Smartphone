@@ -2,17 +2,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 /**
  * 
  * @author ismor
@@ -29,8 +26,28 @@ protected JLabel galleryLabel = new JLabel("Ma Galerie");
 /* Declaration des boutons */
 protected JButton addPictureButton = new JButton(new ImageIcon("C:\\Users\\ismor\\workspace\\ProjetSmartphoneOK\\src\\Images\\Icones\\AddButton.png"));
 
+
+/* Creation de la liaison avec le repertoire des images */
+protected File repertoire = new File ("Images/Galerie");
+
+/* Creation du tableau d'image en utilisant le repertoire */
+protected File[] maGalerie = repertoire.listFiles();
+
+/* Compter le nombre d'image dans le repertoire */
+protected int nbImages = maGalerie.length;
+
+
+
+/* Declaration d'un tableau de boutons qui va acceuillir les images */
+protected JButton[] pictureButton = new JButton[nbImages];
+
+
+
+
 /* Declaration de la barre de deroulement */
-protected JScrollPane scrollBar;
+//private JTextArea textPane = new JTextArea();
+//private JScrollPane scrollBar = new JScrollPane(textPane,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
 
 /* Declaration des panels */
 protected JPanel screen = new JPanel();
@@ -58,7 +75,38 @@ public Gallery(){
     /* Ajout d'un panel reserve a la galerie photo */
     screen.add(galleryPanel, BorderLayout.CENTER);
     galleryPanel.setPreferredSize(new Dimension(LARGEUR,625));
-    galleryPanel.setBackground(Color.RED);
+    galleryPanel.setBackground(Color.GRAY);
+    
+    /* Importation des photos dans les boutons */
+   for(int i=0; i<nbImages;i++) {
+    	pictureButton[i] = new GalleryButton();
+    }
+    
+    
+    /* Ajout de la barre de deroulement */
+    
+    //Scrollbar scrollBar = new Scrollbar();
+	//scrollBar.setBounds(100, 100, 100, 100);
+    //galleryPanel.add(scrollBar,BorderLayout.EAST);
+    
+    
+    
+    
+   // galleryPanel.add(scrollBar, BorderLayout.CENTER);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /* Parametrage du bouton Ajouter */
     // Supprime l'espacement
@@ -67,15 +115,18 @@ public Gallery(){
     addPictureButton.setBackground(null);
     // Supprime les bords
     addPictureButton.setBorder(null);
- 
- 
     
     /* Ajout du bouton Ajouter dans la partie inférieure de l'ecran */
     screen.add(addPictureButton,BorderLayout.SOUTH);
  
-
     add(screen,par);
       
 
 	}
+
+	abstract class GalleryButton implements ActionListener {
+		
+	}
+	
 }
+
