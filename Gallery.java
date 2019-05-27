@@ -2,131 +2,123 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import net.miginfocom.swing.MigLayout;
+
+
+
+
 /**
- * 
- * @author ismor
- *
- *
- * Cette frame comporte les parametres de la galerie image
+ parametres de la galerie image
  */
 
 public class Gallery extends BaseFrame{
+	
+	 protected JScrollPane scrollBar;
 
-/* Declaration des labels */
-protected JLabel galleryLabel = new JLabel("Ma Galerie");
-
-/* Declaration des boutons */
-protected JButton addPictureButton = new JButton(new ImageIcon("C:\\Users\\ismor\\workspace\\ProjetSmartphoneOK\\src\\Images\\Icones\\AddButton.png"));
-
-
-/* Creation de la liaison avec le repertoire des images */
-protected File repertoire = new File ("Images/Galerie");
-
-/* Creation du tableau d'image en utilisant le repertoire */
-protected File[] maGalerie = repertoire.listFiles();
-
-/* Compter le nombre d'image dans le repertoire */
-protected int nbImages = maGalerie.length;
-
-
-
-/* Declaration d'un tableau de boutons qui va acceuillir les images */
-protected JButton[] pictureButton = new JButton[nbImages];
-
-
-
-
-/* Declaration de la barre de deroulement */
-//private JTextArea textPane = new JTextArea();
-//private JScrollPane scrollBar = new JScrollPane(textPane,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-
-/* Declaration des panels */
-protected JPanel screen = new JPanel();
-protected JPanel galleryPanel = new JPanel();
-
+	 /* Declaration des panels */
+	 protected JPanel screen = new JPanel();
+	 protected JPanel galleryPanel = new JPanel();
+	 protected JPanel northPanel= new JPanel();
+	 
+	 protected GridLayout innerPanelGridLayout;
+	 
+	 protected int numberOfImages;
+	 protected int numberOfEmptyFiller;
+	 protected int numberTotalObject;
+	 
+	 /* Declaration des boutons */
+	 protected JButton addPictureButton = new JButton(new ImageIcon ("src/Images/Icones/AddButton.png"));
+	 /* Declaration des labels */
+	 protected JLabel galleryLabel = new JLabel("Ma Galerie");
+	 protected MigLayout layout;
+	
+	 
+	 private JButton button1 = new JButton("1)");
+	 private JButton button2 = new JButton("2)");
+	 private JButton button3 = new JButton("3)");
+	 private JButton button4 = new JButton("4)");  
 
 /**
  * Construction de la galerie
  */
 
-public Gallery(){
-	/* Parametrage du GridBagLayout herite de BaseFrame*/
-	par.gridx = 0;
-    par.gridy = 1;
+	 public Gallery(){
+		 /* Parametrage du GridBagLayout herite de BaseFrame*/
+		 par.gridx = 0;
+		 par.gridy = 1;
 
-    /* Ajout du panel de fond */
-    screen.setPreferredSize(new Dimension(LARGEUR,700));
-    screen.setBackground(Color.WHITE);
+		 /* Ajout du panel de fond */
+		 screen.setPreferredSize(new Dimension(LARGEUR,700));
+		 screen.setBackground(Color.WHITE);
     
-    /* Ajout du titre avec modification de la police et taille */
-    screen.add(galleryLabel);
-    Font font = new Font("Arial",Font.BOLD,14);
-    galleryLabel.setFont(font);
+		 /* Ajout du titre avec modification de la police et taille */
+		 screen.add(galleryLabel);
+		 Font font = new Font("Arial",Font.BOLD,14);
+		 galleryLabel.setFont(font);
     
-    /* Ajout d'un panel reserve a la galerie photo */
-    screen.add(galleryPanel, BorderLayout.CENTER);
-    galleryPanel.setPreferredSize(new Dimension(LARGEUR,625));
-    galleryPanel.setBackground(Color.GRAY);
-    
-    /* Importation des photos dans les boutons */
-   for(int i=0; i<nbImages;i++) {
-    	pictureButton[i] = new GalleryButton();
-    }
-    
-    
-    /* Ajout de la barre de deroulement */
-    
-    //Scrollbar scrollBar = new Scrollbar();
-	//scrollBar.setBounds(100, 100, 100, 100);
-    //galleryPanel.add(scrollBar,BorderLayout.EAST);
-    
-    
-    
-    
-   // galleryPanel.add(scrollBar, BorderLayout.CENTER);
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /* Parametrage du bouton Ajouter */
-    // Supprime l'espacement
-    addPictureButton.setMargin(new Insets(0, 0, 0, 0));
-    // Supprime le fond 
-    addPictureButton.setBackground(null);
-    // Supprime les bords
-    addPictureButton.setBorder(null);
-    
-    /* Ajout du bouton Ajouter dans la partie inférieure de l'ecran */
-    screen.add(addPictureButton,BorderLayout.SOUTH);
- 
-    add(screen,par);
-      
-
-	}
-
-	abstract class GalleryButton implements ActionListener {
+		 /* Ajout d'un panel reserve a la galerie photo */
+		 screen.add(galleryPanel, BorderLayout.CENTER);
+		 galleryPanel.setPreferredSize(new Dimension(LARGEUR,625));
+		 galleryPanel.setBackground(Color.GRAY);
+		 
+		 /* Initialisation des int */
 		
-	}
-	
+		 
+		 /* Ajout et modification du bouton Ajouter */
+		 screen.add(addPictureButton, BorderLayout.CENTER);
+		 addPictureButton.setPreferredSize(new Dimension(40, 40));
+		 addPictureButton.setContentAreaFilled(false);
+		 addPictureButton.setBorderPainted(false);
+		 addPictureButton.setRolloverEnabled(false);
+		 
+		 /* Ajout du Listener */
+		/* listener = new GalleryScreenListener();
+		 addPictureButton.addActionListener(listener);*/
+		 
+		  
+		 /* Configuration du MigLayout */
+		galleryPanel.setLayout(new MigLayout("wrap 4"));
+		galleryPanel.add(button1);
+		button1.setPreferredSize(new Dimension(115, 115));
+		galleryPanel.add(button2);
+		button2.setPreferredSize(new Dimension(115, 115));
+		galleryPanel.add(button3);
+		button3.setPreferredSize(new Dimension(115, 115));
+		galleryPanel.add(button4);
+		button4.setPreferredSize(new Dimension(115, 115));
+		
+		
+	     /* Création du tableau */
+	    // pictureButton = new HashMap<>();
+	     
+		//configureScrollBar();
+	     
+		/*numberOfImages = 0;
+		
+		fillGridSpace();
+		setLayout(new BorderLayout());
+		add(scrollBar, BorderLayout.CENTER);
+		numberTotalObject = numberOfImages + numberOfEmptyFiller;
+		*/
+	 add(screen,par);
+	 }
+	/* private void configureScrollBar() {
+	        scrollBar = new JScrollPane(galleryPanel);
+	        scrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	    }*/
+
 }
+
+	
+	    
+	
+
 
