@@ -96,10 +96,11 @@ public class Gallery extends BaseFrame{
 		button4.setPreferredSize(new Dimension(115, 115));
 		
 		
+		
 	     /* Création du tableau */
 	    // pictureButton = new HashMap<>();
 	     
-		//configureScrollBar();
+		configureScrollBar();
 	     
 		/*numberOfImages = 0;
 		
