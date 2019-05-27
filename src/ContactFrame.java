@@ -2,12 +2,15 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 06.05.2019
- * Date last modification: 14.05.2019
+ * Date last modification: 21.05.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -16,8 +19,10 @@ public class ContactFrame extends BaseFrame{
 	private JList list;
 	private DefaultListModel listModel= new DefaultListModel();
 	
-	private JButton plusButton = new JButton(new ImageIcon("C:\\Users\\colin\\Dropbox\\Mes Dossiers\\Semestre 2\\ProjetPOO\\Smartphone\\src\\add.png"));
+	private JButton plusButton = new JButton(new ImageIcon("add.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	private JButton moreButton = new JButton(new ImageIcon("threedots.png"));
+	//<div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	private JPanel screen = new JPanel();
 	private JPanel topJPanel = new JPanel();
@@ -31,10 +36,20 @@ public class ContactFrame extends BaseFrame{
 		screen.setLayout(new GridBagLayout());
 		
 		ArrayList<Contact> contacts = readContacts();
+		String parameter = readParameter();
 		
-		for(int i=0; i<contacts.size();i++) {
-			listModel.addElement(contacts.get(i).getFirstname()+" "+contacts.get(i).getLastname());
+		//Put the contacts in the model for the Jlist
+		if(parameter.equals("firstname")) {
+			for(int i=0; i<contacts.size();i++) {
+				listModel.addElement(contacts.get(i).getFirstname()+" "+contacts.get(i).getLastname());
+			}
 		}
+		else {
+			for(int i=0; i<contacts.size();i++) {
+				listModel.addElement(contacts.get(i).getLastname()+" "+contacts.get(i).getFirstname());
+			}
+		}
+		
 		
 		list=  new JList(listModel);
 		
@@ -44,6 +59,12 @@ public class ContactFrame extends BaseFrame{
 		plusButton.setPreferredSize(new Dimension(40,40));
 		plusButton.addActionListener(new PlusListener());
 		
+		moreButton.setOpaque(false);
+		moreButton.setContentAreaFilled(false);
+		moreButton.setBorderPainted(false);
+		moreButton.setPreferredSize(new Dimension(40,40));
+		moreButton.addActionListener(new MoreListener());
+		
 		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 60));
 		
 		topJPanel.setLayout(new FlowLayout());
@@ -51,7 +72,7 @@ public class ContactFrame extends BaseFrame{
 		topJPanel.setBackground(Color.WHITE);
 		topJPanel.add(title);
 		topJPanel.add(plusButton);
-		
+		topJPanel.add(moreButton);
 		
 		par.gridx = 0;
 		par.gridy = 0;
@@ -63,9 +84,9 @@ public class ContactFrame extends BaseFrame{
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 		
+		//When you click it open the info frame without having to click on another button
 		list.addListSelectionListener(new ListSelectionListener()
 	    {
-
 	      public void valueChanged(ListSelectionEvent evt) 
 	      {
 	        // To avoid double value selected
@@ -75,7 +96,6 @@ public class ContactFrame extends BaseFrame{
 			frame.setVisible(true);
 			dispose();
 	      }
-
 	    });
 
 		scrollPane= new JScrollPane(list);
@@ -105,6 +125,64 @@ public class ContactFrame extends BaseFrame{
 			JFrame frame = new AddContactFrame();
 			frame.setVisible(true);
 			dispose();
+		}
+	}
+	class MoreListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			JFrame frame = new ParameterFrame();
+			frame.setVisible(true);
+		}
+	}
+	class ParameterFrame extends JFrame{
+		private JList list;
+		private DefaultListModel listModel= new DefaultListModel();
+		private JPanel parameterPanel = new JPanel();
+		
+		public ParameterFrame() {
+			setLayout(new FlowLayout());
+			setSize(new Dimension(100,50));
+			setBackground(Color.WHITE);
+			setLocation(850, 150);
+			setUndecorated(true);
+			
+			listModel.addElement("Sort by firstname");
+			listModel.addElement("Sort by lastname");
+			
+			list = new JList(listModel);
+			
+			//When you click it open the info frame without having to click on another button
+			list.addListSelectionListener(new ListSelectionListener()
+		    {
+		      public void valueChanged(ListSelectionEvent evt) 
+		      {
+		        // To avoid double value selected
+		        if (evt.getValueIsAdjusting())
+		                  return;
+		        
+		        ArrayList<Contact> contacts = readContacts();
+	        	
+	        	ArrayList<String> sorted = new ArrayList<String>();
+	        	
+	        	Contact tempContact = new Contact();
+	        	
+		        if(list.getSelectedValue().equals("Sort by firstname")) {
+		        	sortByFirstName();
+		        	writeParameter("firstname");
+		        }
+		        else {
+		        	sortByLastName();
+		        	writeParameter("lastname");
+		        }
+		        JFrame frame = new ContactFrame();
+				frame.setVisible(true);
+				dispose();
+		      }
+		    });
+			
+			parameterPanel.add(list);
+			parameterPanel.setBackground(Color.WHITE);
+			add(parameterPanel); 
+			
 		}
 	}
 }

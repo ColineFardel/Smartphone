@@ -2,12 +2,14 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 30.04.2019
- * Date last modification: 14.05.2019
+ * Date last modification: 21.05.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.*;
 
 public class BaseFrame extends JFrame{
@@ -19,9 +21,9 @@ public class BaseFrame extends JFrame{
 	private JPanel topPanel= new JPanel();
 	private JPanel botPannel= new JPanel();
 	
-	private JButton homeButton = new JButton(new ImageIcon("C:\\Users\\colin\\Dropbox\\Mes Dossiers\\Semestre 2\\ProjetPOO\\Smartphone\\src\\home-icon-silhouette.png"));
+	private JButton homeButton = new JButton(new ImageIcon("home-icon-silhouette.png"));
 	//<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	private JButton closeButton = new JButton(new ImageIcon("C:\\Users\\colin\\Dropbox\\Mes Dossiers\\Semestre 2\\ProjetPOO\\Smartphone\\src\\power2.png"));
+	private JButton closeButton = new JButton(new ImageIcon("power2.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/<?=_('authors').'/'?>freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	public BaseFrame(){		
@@ -86,7 +88,7 @@ public class BaseFrame extends JFrame{
 			contacts = (ArrayList<Contact>) ois.readObject();
 			ois.close();
 			} catch(Exception e) {
-				System.out.println("Prout");
+				System.out.println("Erreur dans la lecture des contacts");
 			}
 		return contacts;
 	}
@@ -99,7 +101,73 @@ public class BaseFrame extends JFrame{
 			oos.close();
 			}
 			catch(Exception e) {
-				System.out.println("Prout");
+				System.out.println("Erreur dans l'ecriture des contacts");
 			}
+	}
+	public String readParameter() {
+		String parameter="";
+		
+		try {
+			FileInputStream in = new FileInputStream("parameter.ser");
+			ObjectInputStream ois = new ObjectInputStream( in );
+			parameter = (String) ois.readObject();
+			ois.close();
+			} catch(Exception e) {
+				System.out.println("Erreur dans la lecture du parametre");
+			}
+		return parameter;
+	}
+	public void writeParameter(String parameter) {
+		try {
+			FileOutputStream out = new FileOutputStream("parameter.ser");
+			ObjectOutputStream oos = new ObjectOutputStream( out );
+			oos.writeObject(parameter);
+			oos.close();
+			}
+			catch(Exception e) {
+				System.out.println("Erreur dans l'ecriture du parametre");
+			}
+	}
+	public void sortByFirstName() {
+		ArrayList<Contact> contacts = readContacts();
+    	ArrayList<String> sorted = new ArrayList<String>();
+    	Contact tempContact = new Contact();
+    	
+    	for(int i=0;i<contacts.size();i++) {
+    		sorted.add(contacts.get(i).getFirstname());
+    	}
+    	Collections.sort(sorted);
+		
+		for(int i=0; i<contacts.size();i++) {
+			for(int j=0;j<contacts.size();j++) {
+				if(sorted.get(i).equals(contacts.get(j).getFirstname())) {
+					tempContact=contacts.get(j);
+					contacts.remove(j);
+					contacts.add(i,tempContact);
+    			}
+			}
+		}
+		writeContacts(contacts);
+	}
+	public void sortByLastName() {
+		ArrayList<Contact> contacts = readContacts();
+    	ArrayList<String> sorted = new ArrayList<String>();
+    	Contact tempContact = new Contact();
+    	
+    	for(int i=0;i<contacts.size();i++) {
+    		sorted.add(contacts.get(i).getLastname());
+    	}
+    	Collections.sort(sorted);
+		
+		for(int i=0; i<contacts.size();i++) {
+			for(int j=0;j<contacts.size();j++) {
+				if(sorted.get(i).equals(contacts.get(j).getLastname())) {
+					tempContact=contacts.get(j);
+					contacts.remove(j);
+					contacts.add(i,tempContact);
+    			}
+			}
+		}
+		writeContacts(contacts);
 	}
 }
