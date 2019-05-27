@@ -2,7 +2,7 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 06.05.2019
- * Date last modification: 14.05.2019
+ * Date last modification: 21.05.2019
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +12,9 @@ import javax.swing.*;
 
 public class AddContactFrame extends BaseFrame{
 	private JPanel screen = new JPanel();
+	private JPanel topPanel = new JPanel();
 	
+	private JLabel title = new JLabel("Ajouter un contact");
 	private JLabel nom = new JLabel("Nom : ");
 	private JLabel prenom = new JLabel("Prénom : ");
 	private JLabel numero = new JLabel("Numéro : ");
@@ -24,21 +26,67 @@ public class AddContactFrame extends BaseFrame{
 	private JButton cancel = new JButton("Cancel");
 	private JButton save = new JButton("Save");
 	
+	private Dimension dimension = new Dimension(100,100);
+	
 	public AddContactFrame() {
-		screen.setLayout(new GridLayout(4, 2,10,10));
+		screen.setLayout(new GridBagLayout());
 		
-		screen.add(nom);
-		screen.add(nomField);
-		screen.add(prenom);
-		screen.add(prenomField);
-		screen.add(numero);
-		screen.add(numField);
+		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+		topPanel.add(title);
+		
+		par.gridx = 0;
+		par.gridy = 0;
+		par.fill = GridBagConstraints.HORIZONTAL;
+		par.gridwidth = 2;
+		
+		screen.add(topPanel,par);
+		
+		par.gridx = 0;
+		par.gridy = 1;
+		par.gridwidth = 1;
+		
+		nom.setPreferredSize(dimension);
+		screen.add(nom,par);
+		
+		par.gridx = 1;
+		par.gridy = 1;
+		
+		screen.add(nomField,par);
+		
+		par.gridx = 0;
+		par.gridy = 2;
+		
+		prenom.setPreferredSize(dimension);
+		screen.add(prenom,par);
+		
+		par.gridx = 1;
+		par.gridy = 2;
+		
+		screen.add(prenomField,par);
+		
+		par.gridx = 0;
+		par.gridy = 3;
+		
+		numero.setPreferredSize(dimension);
+		screen.add(numero,par);
+		
+		par.gridx = 1;
+		par.gridy = 3;
+		
+		screen.add(numField,par);
 		
 		save.addActionListener(new SaveListener());
 		cancel.addActionListener(new CancelListener());
 		
-		screen.add(save);
-		screen.add(cancel);
+		par.gridx = 0;
+		par.gridy = 4;
+		
+		screen.add(save,par);
+		
+		par.gridx = 1;
+		par.gridy = 4;
+		
+		screen.add(cancel,par);
 		
 		par.gridx = 0;
 		par.gridy = 1;
@@ -52,11 +100,19 @@ public class AddContactFrame extends BaseFrame{
 		public void actionPerformed(ActionEvent e) {
 			
 			ArrayList<Contact> contacts= readContacts();
+			String parameter = readParameter();
 			
 			Contact contact = new Contact(nomField.getText(),prenomField.getText(),numField.getText());
 			contacts.add(contact);
 			
 			writeContacts(contacts);
+			if(parameter.equals("lastname")) {
+				sortByLastName();
+			}
+			else {
+				sortByFirstName();
+			}
+			
 			
 			JFrame frame = new ContactFrame();
 			frame.setVisible(true);

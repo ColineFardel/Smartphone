@@ -2,12 +2,14 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 30.04.2019
- * Date last modification: 14.05.2019
+ * Date last modification: 21.05.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.*;
 
 public class BaseFrame extends JFrame{
@@ -86,7 +88,7 @@ public class BaseFrame extends JFrame{
 			contacts = (ArrayList<Contact>) ois.readObject();
 			ois.close();
 			} catch(Exception e) {
-				System.out.println("Prout");
+				System.out.println("Erreur dans la lecture des contacts");
 			}
 		return contacts;
 	}
@@ -99,7 +101,73 @@ public class BaseFrame extends JFrame{
 			oos.close();
 			}
 			catch(Exception e) {
-				System.out.println("Prout");
+				System.out.println("Erreur dans l'ecriture des contacts");
 			}
+	}
+	public String readParameter() {
+		String parameter="";
+		
+		try {
+			FileInputStream in = new FileInputStream("parameter.ser");
+			ObjectInputStream ois = new ObjectInputStream( in );
+			parameter = (String) ois.readObject();
+			ois.close();
+			} catch(Exception e) {
+				System.out.println("Erreur dans la lecture du parametre");
+			}
+		return parameter;
+	}
+	public void writeParameter(String parameter) {
+		try {
+			FileOutputStream out = new FileOutputStream("parameter.ser");
+			ObjectOutputStream oos = new ObjectOutputStream( out );
+			oos.writeObject(parameter);
+			oos.close();
+			}
+			catch(Exception e) {
+				System.out.println("Erreur dans l'ecriture du parametre");
+			}
+	}
+	public void sortByFirstName() {
+		ArrayList<Contact> contacts = readContacts();
+    	ArrayList<String> sorted = new ArrayList<String>();
+    	Contact tempContact = new Contact();
+    	
+    	for(int i=0;i<contacts.size();i++) {
+    		sorted.add(contacts.get(i).getFirstname());
+    	}
+    	Collections.sort(sorted);
+		
+		for(int i=0; i<contacts.size();i++) {
+			for(int j=0;j<contacts.size();j++) {
+				if(sorted.get(i).equals(contacts.get(j).getFirstname())) {
+					tempContact=contacts.get(j);
+					contacts.remove(j);
+					contacts.add(i,tempContact);
+    			}
+			}
+		}
+		writeContacts(contacts);
+	}
+	public void sortByLastName() {
+		ArrayList<Contact> contacts = readContacts();
+    	ArrayList<String> sorted = new ArrayList<String>();
+    	Contact tempContact = new Contact();
+    	
+    	for(int i=0;i<contacts.size();i++) {
+    		sorted.add(contacts.get(i).getLastname());
+    	}
+    	Collections.sort(sorted);
+		
+		for(int i=0; i<contacts.size();i++) {
+			for(int j=0;j<contacts.size();j++) {
+				if(sorted.get(i).equals(contacts.get(j).getLastname())) {
+					tempContact=contacts.get(j);
+					contacts.remove(j);
+					contacts.add(i,tempContact);
+    			}
+			}
+		}
+		writeContacts(contacts);
 	}
 }
