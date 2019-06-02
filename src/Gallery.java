@@ -17,12 +17,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import net.miginfocom.swing.MigLayout;
 
+import net.miginfocom.swing.MigLayout;
 
 /**
  Parametre pour la galerie photo
@@ -75,7 +76,7 @@ public class Gallery extends BaseFrame{
 	/* Variable qui represente l'index du bouton (de l'ArrayList buttonPicture) surlequel on vient de cliquer */
 	private int indexSearch;
 	
-	 
+	
 /**
  * Construction de la galerie
  */
@@ -84,6 +85,7 @@ public class Gallery extends BaseFrame{
 		/* Parametrage du GridBagLayout herite de BaseFrame*/
 		par.gridx = 0;
 		par.gridy = 1;
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		/* Ajout du panel de fond via sa methode*/
 		configurateScreenPanel();
@@ -123,7 +125,7 @@ public class Gallery extends BaseFrame{
 			screen.setLayout(new BorderLayout());
 			screen.setPreferredSize(new Dimension(LARGEUR,700));
 			screen.setBackground(Color.WHITE);
-}	
+	}	
 	/* Methode pour configurer le NorthPanel */
 	public void configurateNorthPanel() {
 			screen.add(northPanel, BorderLayout.NORTH);
@@ -187,38 +189,36 @@ public class Gallery extends BaseFrame{
 			backButton.setRolloverEnabled(false);
 			/* Ajout d'un ActionListener au bouton */
 			backButton.addActionListener(new BackClick());
-
 	}
 	public void initializeGallery() {
 
 		for(int i=0; i<listPathPictures.length; i++){
-			//Defini l'image qu'il faut prendre dans le dossier Images
+			/* Defini l'image qu'il faut prendre dans le dossier Images */
 			eachPicture = new ImageIcon(filePictures + "/" + listPathPictures[i]);
-			//Prend l'image
+			/* Prend l'image */
 			Image pic = eachPicture.getImage();
-			//Reglement des dimensions l'image
+			/* Reglement des dimensions l'image */
 			Image newPic = pic.getScaledInstance(113, 113,java.awt.Image.SCALE_SMOOTH);
-			//Met l'image dans l'ImageIcon
+			/* Met l'image dans l'ImageIcon */
 			eachPicture = new ImageIcon(newPic);
 			
-			//Creation d'un bouton avec l'ImageIcon a l'interieur
+			/* Creation d'un bouton avec l'ImageIcon a l'interieur */
 			buttonPicture.add(new JButton(eachPicture));
-			//Reglement de la dimension du bouton
+			/* Reglement de la dimension du bouton */
 			buttonPicture.get(i).setMaximumSize(size);
 			
-			//Ajout du bouton dans le panel qui a comme layout le MigLayout
+			/* Ajout du bouton dans le panel qui a comme layout le MigLayout */
 			galleryPanel.add(buttonPicture.get(i));
-			
-			//Ajout de MouseListener sur chaque bouton
+	
+			/* Ajout de MouseListener sur chaque bouton */
 			buttonPicture.get(i).addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent mouseEvent) {
-					//Si double-clic
+					/* Si double-clic */
 					if(mouseEvent.getClickCount() == 2) {
 						screen.removeAll();
-						//Recuperation du bouton sur lequel on a clique
+						/* Recuperation du bouton sur lequel on a clique */
 						JButton b = (JButton)mouseEvent.getSource();
-
-						//Recuperation de l'image et insertion dans enlargedPicture
+						/* Recuperation de l'image et insertion dans enlargedPicture */
 						enlargedPicture = (ImageIcon)b.getIcon();
 						Image image = enlargedPicture.getImage();
 						Image newimg2 = image.getScaledInstance(400,  500, java.awt.Image.SCALE_SMOOTH);
@@ -226,32 +226,22 @@ public class Gallery extends BaseFrame{
 						enlargedPictureButton = new JButton(enlargedPicture);
 						enlargedPictureButton.setPreferredSize(new Dimension(400, 500));
 
-						//Creation de la fenetre qui va afficher l'image en grand
+						/* Creation de la fenetre qui va afficher l'image en grand */
 						GalleryImageDisplayer gid = new GalleryImageDisplayer();
 						gid.setVisible(true);
-					}
-
-					//Si un seul clic
-					if(mouseEvent.getClickCount() == 1) {
-						//Recuperation du bouton sur lequel on a clique
-						JButton b = (JButton)mouseEvent.getSource();
-						//Recuperation de l'index du bouton qui se trouve dans l'ArrayList
-						indexSearch = buttonPicture.indexOf(b);
-						//Ajout d'un ActionListener sur le bouton supprimer
-						deletePictureButton.addActionListener(new DeleteClick());
 					}
 				}
 			});
 		}
-	}
-		
+	}	
 	public void refreshUI() {
 		
 		revalidate();
 		repaint();
 	}
 
-	class GalleryImageDisplayer extends BaseFrame {
+	protected class GalleryImageDisplayer extends BaseFrame {
+		protected GalleryImageDisplayer displayer;
 
 		public GalleryImageDisplayer() {
 			par.gridx = 0;
@@ -267,68 +257,89 @@ public class Gallery extends BaseFrame{
 			configurateBackButton();
 			addTitelGalleryPanel();
 			configurateScrollBar();
-			
-			//configurateEditButtonPanel();
 			southPanel.remove(addPictureButton);
+			/* Renitialise la galerie d'image */
 			galleryPanel.removeAll();
-			//Ajout du bouton selectionne dans la fenetre
+			/* Ajout du bouton selectionne dans la fenetre */
 			galleryPanel.add(enlargedPictureButton);
 			
 		 add(screen,par);
 		}
 	}
-	class DeleteClick implements ActionListener {
+	protected class DeleteClick implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 
-			int num = indexSearch+1;
+			if (e.getSource()== deletePictureButton) {
+				/* Affiche un Popup pour demander une confirmation de suppression */
+				Object[] options = {"OK", "Annuler"};
+                int choice = JOptionPane.showOptionDialog(null, "Voulez-vous vraiment supprimer cette image ?", "Attention",
+                  JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+                if (choice == 0) {
+                    /*
+                    gallery.remove(picture);
+                    FileUtils.deleteFile(enlargedPicture.getFile());*/
+                	//GalleryImageDisplayer gid = new GalleryImageDisplayer();
+                	//gid.dispose();
+                    Gallery frame = new Gallery();
+                    frame.setVisible(true);
+                }
+			}
+		}
+	}
+
+			/*int num = indexSearch+1;
 
 			
 			if(num < 10) {
-				File f = new File("Images/Galerie/numero0" + num + ".png"); 
+				File f = new File("Images/Galerie/" + namePicture); 
 				f.delete();
 			}
 			else {
 				File f = new File("Images/Galerie/numero" + num + ".png"); 
 				f.delete();
-			}
-		}
-	}
-	class AddClick implements ActionListener {
+			}*/
+		
+	
+	protected class AddClick implements ActionListener {
 		
 		
 		public void actionPerformed(ActionEvent e){		
 			
 			if(e.getSource() == addPictureButton) {
-				//JFileChoose permettant d'avoir acces a l'explorateur windows
+				/* JFileChoose permettant d'avoir acces a l'explorateur windows */
 				JFileChooser chooser = new JFileChooser();
-				//FileNameExtensionFilter qui permet de selectionner uniquement les fichiers .jpeg, .png & .pg 
+				/* FileNameExtensionFilter qui permet de selectionner uniquement les fichiers .jpeg, .png & .jpg */
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG, PNG & JPG", "jpeg", "png", "jpg" );
 				chooser.setFileFilter(filter);
 				chooser.setSize(400, 400);
 				chooser.setPreferredSize(new Dimension(350, 400));
-				//Fichier selectionne dans l'explorateur windows
+				/* Fichier selectionne dans l'explorateur windows */
 				File selectedFile;
-				//Contient la valeur que retourne le JFileChooser
+				/* Contient la valeur que retourne le JFileChooser */
 				int returnVal = chooser.showOpenDialog(galleryPanel);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					//Stockage du fichier selectionne dans la variable selectedFile
+					/* Stockage du fichier selectionne dans la variable selectedFile */
 					selectedFile = chooser.getSelectedFile();
 
-					//Stockage du nom et de l'extension du fichier selectionne
+					/* Stockage du nom et de l'extension du fichier selectionne */
 					String namePicture = selectedFile.getName();
 
-					//Creation d'un fichier sous Images au meme nom que le nom du fichier selectionne
+					/* Creation d'un fichier sous Images au meme nom que le nom du fichier selectionne */
 					File f = new File("./Images/Galerie/" + namePicture);
 
-					//Renomme le chemin du selectedFile dans le but de le deplacer sous le dossier Images
+					/* Renomme le chemin du selectedFile dans le but de le deplacer sous le dossier Images */
 					selectedFile.renameTo(f);
 					
-					
+					Gallery frame = new Gallery();
+					frame.setVisible(true);
+				
+				
 				}
 			}
 		}
 	}
-	class BackClick implements ActionListener {
+	protected class BackClick implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 
 			if(e.getSource() == backButton) {
