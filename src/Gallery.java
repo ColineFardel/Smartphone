@@ -151,7 +151,8 @@ public class Gallery extends BaseFrame{
 	public void configurateAddButton() {
 			southPanel.add(addPictureButton);
 			addPictureButton.setPreferredSize(new Dimension(40, 40));
-			addPictureButton.setContentAreaFilled(false);
+			addPictureButton.setContentAreaFilled(true);
+			addPictureButton.setBackground(Color.WHITE);
 			addPictureButton.setBorderPainted(false);
 			addPictureButton.setRolloverEnabled(false);
 			/* Ajout de l'ActionListener au bouton */
@@ -161,7 +162,8 @@ public class Gallery extends BaseFrame{
 	public void configurateDeleteButton() {
 			southPanel.add(deletePictureButton);
 			deletePictureButton.setPreferredSize(new Dimension(40, 40));
-			deletePictureButton.setContentAreaFilled(false);
+			deletePictureButton.setContentAreaFilled(true);
+			deletePictureButton.setBackground(Color.WHITE);
 			deletePictureButton.setBorderPainted(false);
 			deletePictureButton.setRolloverEnabled(false);
 			/* Ajout d'un ActionListener au bouton */
@@ -179,7 +181,8 @@ public class Gallery extends BaseFrame{
 	public void configurateBackButton() {
 			northPanel.add(backButton, BorderLayout.WEST);
 			backButton.setPreferredSize(new Dimension(40, 40));
-			backButton.setContentAreaFilled(false);
+			backButton.setContentAreaFilled(true);
+			backButton.setBackground(Color.WHITE);
 			backButton.setBorderPainted(false);
 			backButton.setRolloverEnabled(false);
 			/* Ajout d'un ActionListener au bouton */
@@ -268,7 +271,6 @@ public class Gallery extends BaseFrame{
 			//configurateEditButtonPanel();
 			southPanel.remove(addPictureButton);
 			galleryPanel.removeAll();
-			enlargedPictureButton.setBackground(Color.WHITE);
 			//Ajout du bouton selectionne dans la fenetre
 			galleryPanel.add(enlargedPictureButton);
 			
