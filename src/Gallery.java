@@ -40,7 +40,7 @@ import net.miginfocom.swing.MigLayout;
 public class Gallery extends BaseFrame{
 
 	/* Declaration du MigLayout */
-	MigLayout layout = new MigLayout("wrap 4");
+	private MigLayout layout = new MigLayout("wrap 4");
 	
 	/* Declaration des panels */
 	private JPanel screen = new JPanel();
@@ -86,6 +86,8 @@ public class Gallery extends BaseFrame{
 	private int numberOfPictures;
 	
 	private Gallery frame;
+	
+	private String namePicture;
 /**
  * Construction de la galerie
  */
@@ -126,9 +128,9 @@ public class Gallery extends BaseFrame{
 		/* Creation du tableau d'image depuis le dossier Galerie */
 		initializeGallery();
 		
-	/* Ajout du Panel Screen et Par dans Gallery pour fixer le tout */	
-	 add(screen,par);
-	 }
+		/* Ajout du Panel Screen et Par dans Gallery pour fixer le tout */	
+		add(screen,par);
+	}
 	/* Methode pour configurer le Screen */
 	public void configurateScreenPanel() {
 			screen.setLayout(new BorderLayout());
@@ -220,7 +222,6 @@ public class Gallery extends BaseFrame{
 			
 			/* Ajout du bouton dans le panel qui a comme layout le MigLayout */
 			galleryPanel.add(buttonPicture.get(i));
-	
 			/* Ajout de MouseListener sur chaque bouton */
 			buttonPicture.get(i).addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent mouseEvent) {
@@ -232,8 +233,9 @@ public class Gallery extends BaseFrame{
 						screen.removeAll();
 						/* Recuperation du bouton sur lequel on a clique */
 						JButton b = (JButton)mouseEvent.getSource();
-						//java.net.URL urlImage = b.getClass().getResource("./Images/Galerie"); 
-						//ImageIcon icone = new ImageIcon(urlImage);
+						/* Recuperation de l'index du bouton pour ajouter à la suppression */
+						indexSearch = buttonPicture.indexOf(b);
+						System.out.println(indexSearch);
 						/* Recuperation de l'image et insertion dans enlargedPicture */
 						enlargedPicture = (ImageIcon)b.getIcon();
 						Image image = enlargedPicture.getImage();
@@ -251,7 +253,7 @@ public class Gallery extends BaseFrame{
 			});
 		}
 	}	
-	public class GalleryImageDisplayer extends BaseFrame {
+	private class GalleryImageDisplayer extends BaseFrame {
 		
 		public GalleryImageDisplayer() {
 			par.gridx = 0;
@@ -272,12 +274,12 @@ public class Gallery extends BaseFrame{
 			galleryPanel.removeAll();
 			/* Ajout du bouton selectionne dans la fenetre */
 			galleryPanel.add(enlargedPictureButton);
-			
-		 add(screen,par);
+			add(screen,par);
 		}
 	}
-	protected class DeleteClick implements ActionListener {
+	private class DeleteClick implements ActionListener {
 		public void actionPerformed(ActionEvent e){
+			int namePicture = indexSearch +1;
 
 			if (e.getSource()== deletePictureButton) {
 				/* Affiche un Popup pour demander une confirmation de suppression */
@@ -286,33 +288,25 @@ public class Gallery extends BaseFrame{
                   JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 
                 if (choice == 0) {
-                    /*
-                    gallery.remove(picture);
-                    FileUtils.deleteFile(enlargedPicture.getFile());*/
-                	//GalleryImageDisplayer gid = new GalleryImageDisplayer();
-                	//gid.dispose();
+                    if(namePicture < 10) {
+                	File f = new File("Images/Galerie/000" + namePicture + ".png");
+                	f.delete();
                     Gallery frame = new Gallery();
                     frame.setVisible(true);
-                    //dispose();
+                    dispose();
+                    }
+                else {
+                	File f = new File("Images/Galerie/00" + namePicture + ".png");
+                    f.delete();
+                    Gallery frame = new Gallery();
+                    frame.setVisible(true);
+                    dispose();
+                    }
                 }
 			}
 		}
-	}
-
-			/*int num = indexSearch+1;
-
-			
-			if(num < 10) {
-				File f = new File("Images/Galerie/" + namePicture); 
-				f.delete();
-			}
-			else {
-				File f = new File("Images/Galerie/numero" + num + ".png"); 
-				f.delete();
-			}*/
-		
-	
-	protected class AddClick implements ActionListener {
+	}	
+	private class AddClick implements ActionListener {
 		public void actionPerformed(ActionEvent e){		
 			int newName;
 			
@@ -335,26 +329,33 @@ public class Gallery extends BaseFrame{
 					/* Reprendre le nombre d'image et ajoute 2 pour que la nouvelle image soit en dernière position */
 					newName = numberOfPictures+2;
 					/* Creation d'un fichier sous Images au meme nom que le nom du fichier selectionne */
-					File f = new File("Images/Galerie/" + "0" + newName +".png");
-					/* Renomme le chemin du selectedFile dans le but de le deplacer sous le dossier Images */
-					selectedFile.renameTo(f);
-					/* Rafraichi la frame */
-					
-					Gallery frame = new Gallery();
-					frame.setVisible(true);
-					dispose();
+					if(newName<10) {
+						File f = new File("Images/Galerie/000" + newName +".png");
+						/* Renomme le chemin du selectedFile dans le but de le deplacer sous le dossier Images */
+						selectedFile.renameTo(f);
+						/* Rafraichi la frame */
+						Gallery frame = new Gallery();
+						frame.setVisible(true);
+						dispose();
+						}
+					else {
+						File f = new File("Images/Galerie/00" + newName +".png");	
+						selectedFile.renameTo(f);
+						Gallery frame = new Gallery();
+						frame.setVisible(true);
+						dispose();
+					}
 				}
 			}
 		}
 	}
-	protected class BackClick implements ActionListener {
+	private class BackClick implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 
 			if(e.getSource() == backButton) {
-				
-				
 				Gallery frame = new Gallery();
 				frame.setVisible(true);
+				dispose();
 				
 			}
 		}
