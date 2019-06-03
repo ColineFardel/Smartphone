@@ -1,3 +1,10 @@
+/*
+ * Project POO Smartphone
+ * Author: Ismaël Moreno
+ * Date creation: 06.05.2019
+ * Date last modification: 08.06.2019
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,12 +34,11 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  Parametre pour la galerie photo
- 
- *@author Ismaël Moreno
- */
+ **/
+
 
 public class Gallery extends BaseFrame{
-	
+
 	/* Declaration du MigLayout */
 	MigLayout layout = new MigLayout("wrap 4");
 	
@@ -53,7 +59,7 @@ public class Gallery extends BaseFrame{
 	private JLabel galleryLabel = new JLabel("Ma Galerie");
 	
 	/* Declaration du fichier des images */
-	private File filePictures = new File("./Images/Galerie");
+	private File filePictures = new File("Images/Galerie");
 	
 	/* Tableau qui contient tous les chemins des images*/
 	private String [] listPathPictures = filePictures.list();
@@ -76,7 +82,10 @@ public class Gallery extends BaseFrame{
 	/* Variable qui represente l'index du bouton (de l'ArrayList buttonPicture) surlequel on vient de cliquer */
 	private int indexSearch;
 	
+	/* Variable qui stock le nombre d'images dans le dossier */
+	private int numberOfPictures;
 	
+	private Gallery frame;
 /**
  * Construction de la galerie
  */
@@ -193,6 +202,8 @@ public class Gallery extends BaseFrame{
 	public void initializeGallery() {
 
 		for(int i=0; i<listPathPictures.length; i++){
+			/* Defini le nombre d'image dans la galerie */
+			numberOfPictures = i;
 			/* Defini l'image qu'il faut prendre dans le dossier Images */
 			eachPicture = new ImageIcon(filePictures + "/" + listPathPictures[i]);
 			/* Prend l'image */
@@ -215,12 +226,18 @@ public class Gallery extends BaseFrame{
 				public void mouseClicked(MouseEvent mouseEvent) {
 					/* Si double-clic */
 					if(mouseEvent.getClickCount() == 2) {
+						/* Permet de fermer l'ancienne frame */
+						dispose();
+						/* Renitialise l'ecran */
 						screen.removeAll();
 						/* Recuperation du bouton sur lequel on a clique */
 						JButton b = (JButton)mouseEvent.getSource();
+						//java.net.URL urlImage = b.getClass().getResource("./Images/Galerie"); 
+						//ImageIcon icone = new ImageIcon(urlImage);
 						/* Recuperation de l'image et insertion dans enlargedPicture */
 						enlargedPicture = (ImageIcon)b.getIcon();
 						Image image = enlargedPicture.getImage();
+						//Image image = icone.getImage();
 						Image newimg2 = image.getScaledInstance(400,  500, java.awt.Image.SCALE_SMOOTH);
 						enlargedPicture = new ImageIcon(newimg2);
 						enlargedPictureButton = new JButton(enlargedPicture);
@@ -234,15 +251,8 @@ public class Gallery extends BaseFrame{
 			});
 		}
 	}	
-	public void refreshUI() {
+	public class GalleryImageDisplayer extends BaseFrame {
 		
-		revalidate();
-		repaint();
-	}
-
-	protected class GalleryImageDisplayer extends BaseFrame {
-		protected GalleryImageDisplayer displayer;
-
 		public GalleryImageDisplayer() {
 			par.gridx = 0;
 			par.gridy = 1;
@@ -283,6 +293,7 @@ public class Gallery extends BaseFrame{
                 	//gid.dispose();
                     Gallery frame = new Gallery();
                     frame.setVisible(true);
+                    //dispose();
                 }
 			}
 		}
@@ -302,9 +313,8 @@ public class Gallery extends BaseFrame{
 		
 	
 	protected class AddClick implements ActionListener {
-		
-		
 		public void actionPerformed(ActionEvent e){		
+			int newName;
 			
 			if(e.getSource() == addPictureButton) {
 				/* JFileChoose permettant d'avoir acces a l'explorateur windows */
@@ -318,23 +328,21 @@ public class Gallery extends BaseFrame{
 				File selectedFile;
 				/* Contient la valeur que retourne le JFileChooser */
 				int returnVal = chooser.showOpenDialog(galleryPanel);
+				
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					/* Stockage du fichier selectionne dans la variable selectedFile */
 					selectedFile = chooser.getSelectedFile();
-
-					/* Stockage du nom et de l'extension du fichier selectionne */
-					String namePicture = selectedFile.getName();
-
+					/* Reprendre le nombre d'image et ajoute 2 pour que la nouvelle image soit en dernière position */
+					newName = numberOfPictures+2;
 					/* Creation d'un fichier sous Images au meme nom que le nom du fichier selectionne */
-					File f = new File("./Images/Galerie/" + namePicture);
-
+					File f = new File("Images/Galerie/" + "0" + newName +".png");
 					/* Renomme le chemin du selectedFile dans le but de le deplacer sous le dossier Images */
 					selectedFile.renameTo(f);
+					/* Rafraichi la frame */
 					
 					Gallery frame = new Gallery();
 					frame.setVisible(true);
-				
-				
+					dispose();
 				}
 			}
 		}
@@ -343,8 +351,11 @@ public class Gallery extends BaseFrame{
 		public void actionPerformed(ActionEvent e){
 
 			if(e.getSource() == backButton) {
+				
+				
 				Gallery frame = new Gallery();
 				frame.setVisible(true);
+				
 			}
 		}
 	}
