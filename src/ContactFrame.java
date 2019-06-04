@@ -2,7 +2,7 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 06.05.2019
- * Date last modification: 21.05.2019
+ * Date last modification: 27.05.2019
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -19,14 +19,14 @@ public class ContactFrame extends BaseFrame{
 	private JList list;
 	private DefaultListModel listModel= new DefaultListModel();
 	
-	private JButton plusButton = new JButton(new ImageIcon("add.png"));
+	private JButton plusButton = new JButton(new ImageIcon("Images//add.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	private JButton moreButton = new JButton(new ImageIcon("threedots.png"));
+	private JButton moreButton = new JButton(new ImageIcon("Images//threedots.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	private JPanel screen = new JPanel();
 	private JPanel topJPanel = new JPanel();
-	private JPanel testJPanel = new JPanel();
+	private JPanel mainJPanel = new JPanel();
 	
 	private JLabel title = new JLabel("Contacts");
 	
@@ -49,7 +49,6 @@ public class ContactFrame extends BaseFrame{
 				listModel.addElement(contacts.get(i).getLastname()+" "+contacts.get(i).getFirstname());
 			}
 		}
-		
 		
 		list=  new JList(listModel);
 		
@@ -103,14 +102,15 @@ public class ContactFrame extends BaseFrame{
 		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 		scrollPane.setPreferredSize(new Dimension(LARGEUR,600));
 		
-		testJPanel.setLayout(new FlowLayout());
-		testJPanel.setPreferredSize(new Dimension(LARGEUR,600));
-		testJPanel.add(scrollPane);
+		mainJPanel.setLayout(new FlowLayout());
+		mainJPanel.setPreferredSize(new Dimension(LARGEUR,600));
+		mainJPanel.setBackground(Color.WHITE);
+		mainJPanel.add(scrollPane);
 		
 		par.gridx = 0;
 		par.gridy = 1;
 		
-		screen.add(testJPanel,par);
+		screen.add(mainJPanel,par);
 		
 		par.gridx = 0;
 		par.gridy = 1;

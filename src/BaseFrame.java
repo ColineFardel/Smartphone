@@ -2,12 +2,15 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 30.04.2019
- * Date last modification: 21.05.2019
+ * Date last modification: 27.05.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 import javax.swing.*;
@@ -15,15 +18,16 @@ import javax.swing.*;
 public class BaseFrame extends JFrame{
 
 	protected final int LARGEUR = 480;
-	
 	protected GridBagConstraints par = new GridBagConstraints();
 
 	private JPanel topPanel= new JPanel();
 	private JPanel botPannel= new JPanel();
 	
-	private JButton homeButton = new JButton(new ImageIcon("home-icon-silhouette.png"));
+	private ClockLabel clock = new ClockLabel();
+	
+	private JButton homeButton = new JButton(new ImageIcon("Images//home-icon-silhouette.png"));
 	//<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	private JButton closeButton = new JButton(new ImageIcon("power2.png"));
+	private JButton closeButton = new JButton(new ImageIcon("Images//power2.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/<?=_('authors').'/'?>freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	public BaseFrame(){		
@@ -31,7 +35,7 @@ public class BaseFrame extends JFrame{
 		setLayout(new GridBagLayout());
 		setUndecorated(true);
 		setSize(new Dimension(LARGEUR,800));
-		setLocationRelativeTo(null);		
+		setLocationRelativeTo(null);
 		
 		par.gridx = 0;
 		par.gridy = 0;
@@ -39,6 +43,10 @@ public class BaseFrame extends JFrame{
 		topPanel.setPreferredSize(new Dimension(LARGEUR,50));
 		topPanel.setOpaque(true);
 		topPanel.setBackground(Color.BLACK);
+		topPanel.setLayout(new GridLayout(1, 3));
+		clock.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+		clock.setForeground(Color.WHITE);
+		topPanel.add(clock);
 		add(topPanel,par);
 		
 		par.gridx = 0;
@@ -79,6 +87,19 @@ public class BaseFrame extends JFrame{
 		}
 	}
 	
+	class ClockLabel extends JLabel implements ActionListener 
+  	{
+		public ClockLabel( ) {
+			super("" + Calendar.getInstance());
+			Timer t = new Timer(1000, this);
+			t.start( );
+			}
+		public void actionPerformed(ActionEvent ae) {
+			setText(String.format("%tR", Calendar.getInstance()));
+			}
+		}
+	
+	//Methodes
 	public ArrayList<Contact> readContacts(){
 		ArrayList<Contact> contacts= new ArrayList<Contact>();
 		
@@ -169,5 +190,21 @@ public class BaseFrame extends JFrame{
 			}
 		}
 		writeContacts(contacts);
+	}
+	public String readTxt(String path) {
+		String sortie="";
+		try (FileReader reader = new FileReader(path);
+	             BufferedReader br = new BufferedReader(reader)) {
+
+	            // read line by line
+	            String line;
+	            while ((line = br.readLine()) != null) {
+	                sortie = sortie + line;
+	            }
+
+	        } catch (IOException e) {
+	            System.err.format("IOException: %s%n", e);
+	        }
+		return sortie;
 	}
 }

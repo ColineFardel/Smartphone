@@ -23,15 +23,19 @@ public class AddContactFrame extends BaseFrame{
 	private JTextField prenomField=new JTextField(20);
 	private JTextField numField=new JTextField(20);
 	
-	private JButton cancel = new JButton("Cancel");
-	private JButton save = new JButton("Save");
+	private JButton cancel = new JButton("Annuler");
+	private JButton save = new JButton("Sauvegarder");
 	
-	private Dimension dimension = new Dimension(100,100);
+	private Dimension dimension = new Dimension(200,150);
+	private Font normalFont = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	
 	public AddContactFrame() {
 		screen.setLayout(new GridBagLayout());
 		
 		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+		title.setForeground(Color.WHITE);
+		topPanel.setBackground(Color.GREEN);
+		topPanel.setPreferredSize(new Dimension(LARGEUR,100));
 		topPanel.add(title);
 		
 		par.gridx = 0;
@@ -46,6 +50,7 @@ public class AddContactFrame extends BaseFrame{
 		par.gridwidth = 1;
 		
 		nom.setPreferredSize(dimension);
+		nom.setFont(normalFont);
 		screen.add(nom,par);
 		
 		par.gridx = 1;
@@ -57,6 +62,7 @@ public class AddContactFrame extends BaseFrame{
 		par.gridy = 2;
 		
 		prenom.setPreferredSize(dimension);
+		prenom.setFont(normalFont);
 		screen.add(prenom,par);
 		
 		par.gridx = 1;
@@ -68,6 +74,7 @@ public class AddContactFrame extends BaseFrame{
 		par.gridy = 3;
 		
 		numero.setPreferredSize(dimension);
+		numero.setFont(normalFont);
 		screen.add(numero,par);
 		
 		par.gridx = 1;

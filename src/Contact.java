@@ -11,7 +11,7 @@ public class Contact implements Serializable{
 	private String lastname;
 	private String firstname;
 	private String number;
-	private String photo;
+	private String photo="Images//contactnull.png";
 	
 	public Contact(String lastname, String firstname, String number) {
 		this.lastname=lastname;
