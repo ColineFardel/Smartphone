@@ -51,10 +51,11 @@ public class Gallery extends BaseFrame{
 	/* Declaration de la barre de defilement */
 	private JScrollPane scrollBar;
 	 
-	/* Declaration des boutons add/delete */
+	/* Declaration des boutons add/delete/back */
 	private JButton addPictureButton = new JButton(new ImageIcon ("Images/add.png"));
 	private JButton deletePictureButton = new JButton(new ImageIcon ("Images/delete.png"));
 	private JButton backButton = new JButton(new ImageIcon ("Images/backGallery.png")) ;
+	
 	/* Declaration des labels */
 	private JLabel galleryLabel = new JLabel("Ma Galerie");
 	
@@ -131,51 +132,51 @@ public class Gallery extends BaseFrame{
 	}
 	/* Methode pour configurer le Screen */
 	private void configurateScreenPanel() {
-			screen.setLayout(new BorderLayout());
-			screen.setPreferredSize(new Dimension(LARGEUR,700));
-			screen.setBackground(Color.WHITE);
+		screen.setLayout(new BorderLayout());
+		screen.setPreferredSize(new Dimension(LARGEUR,700));
+		screen.setBackground(Color.WHITE);
 	}	
 	/* Methode pour configurer le NorthPanel */
 	private void configurateNorthPanel() {
-			screen.add(northPanel, BorderLayout.NORTH);
-			northPanel.setPreferredSize(new Dimension(LARGEUR,40));
-			northPanel.setBackground(Color.WHITE);
+		screen.add(northPanel, BorderLayout.NORTH);
+		northPanel.setPreferredSize(new Dimension(LARGEUR,40));
+		northPanel.setBackground(Color.WHITE);
 	}
 	/*Methode pour configurer le GalleryPanel */
 	private void configurateGalleryPanel() {
-			screen.add(galleryPanel, BorderLayout.CENTER);
-			galleryPanel.setBackground(Color.WHITE);
+		screen.add(galleryPanel, BorderLayout.CENTER);
+		galleryPanel.setBackground(Color.WHITE);
 	}
 	/* Methode pour configurer le SouthPanel */
 	private void configurateSouthPanel() {
-			screen.add(southPanel, BorderLayout.SOUTH);
-			southPanel.setPreferredSize(new Dimension(LARGEUR,50));
-			southPanel.setBackground(Color.WHITE);
+		screen.add(southPanel, BorderLayout.SOUTH);
+		southPanel.setPreferredSize(new Dimension(LARGEUR,50));
+		southPanel.setBackground(Color.WHITE);
 	}
 	/* Methode pour ajouter le titre NorthPanel avec modification de la police et taille */
 	private void addTitelGalleryPanel() {
-			northPanel.add(galleryLabel, BorderLayout.CENTER);
-			Font font = new Font("Arial",Font.BOLD,32);
-			galleryLabel.setFont(font);
+		northPanel.add(galleryLabel, BorderLayout.CENTER);
+		Font font = new Font("Arial",Font.BOLD,32);
+		galleryLabel.setFont(font);
 	}
 	/* Configuration du bouton AddPictureButton */
 	private void configurateAddButton() {
-			southPanel.add(addPictureButton);
-			addPictureButton.setPreferredSize(new Dimension(40, 40));
-			addPictureButton.setContentAreaFilled(true);
-			addPictureButton.setBackground(Color.WHITE);
-			addPictureButton.setBorderPainted(false);
-			addPictureButton.setRolloverEnabled(false);
-			/* Ajout de l'ActionListener au bouton */
-			addPictureButton.addActionListener(new AddClick());
+		southPanel.add(addPictureButton);
+		addPictureButton.setPreferredSize(new Dimension(40, 40));
+		addPictureButton.setContentAreaFilled(true);
+		addPictureButton.setBackground(Color.WHITE);
+		addPictureButton.setBorderPainted(false);
+		addPictureButton.setRolloverEnabled(false);
+		/* Ajout de l'ActionListener au bouton */
+		addPictureButton.addActionListener(new AddClick());
 	}
 	/* Configuration du ScrollBar */
 	private void configurateScrollBar() {
-			scrollBar = new JScrollPane(galleryPanel);
-			scrollBar.getVerticalScrollBar().setUnitIncrement(10);
-			scrollBar.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
-			scrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			screen.add(scrollBar);
+		scrollBar = new JScrollPane(galleryPanel);
+		scrollBar.getVerticalScrollBar().setUnitIncrement(20);
+		scrollBar.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
+		scrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		screen.add(scrollBar);
 	}
 	public void initializeGallery() {
 
@@ -211,7 +212,6 @@ public class Gallery extends BaseFrame{
 						JButton b = (JButton)mouseEvent.getSource();
 						/* Recuperation de l'index du bouton pour ajouter à la suppression */
 						indexSearch = buttonPicture.indexOf(b);
-						System.out.println(indexSearch);
 						/* Recuperation de l'image et insertion dans enlargedPicture */
 						enlargedPicture = (ImageIcon)b.getIcon();
 						Image image = enlargedPicture.getImage();
@@ -293,7 +293,7 @@ public class Gallery extends BaseFrame{
 			}
 		}	
 		/* Configuration du bouton BackButton */
-		protected void configurateBackButton() {
+		private void configurateBackButton() {
 			northPanel.add(backButton, BorderLayout.WEST);
 			backButton.setPreferredSize(new Dimension(40, 40));
 			backButton.setContentAreaFilled(true);
@@ -325,6 +325,7 @@ public class Gallery extends BaseFrame{
 				JFileChooser chooser = new JFileChooser();
 				/* FileNameExtensionFilter qui permet de selectionner uniquement les fichiers .jpeg, .png & .jpg */
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG, PNG & JPG", "jpeg", "png", "jpg" );
+				chooser.setDialogTitle("Choisissez une image");
 				chooser.setFileFilter(filter);
 				chooser.setSize(400, 400);
 				chooser.setPreferredSize(new Dimension(350, 400));
