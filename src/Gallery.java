@@ -85,9 +85,7 @@ public class Gallery extends BaseFrame{
 	/* Variable qui stock le nombre d'images dans le dossier */
 	private int numberOfPictures;
 	
-	private Gallery frame;
 	
-	private String namePicture;
 /**
  * Construction de la galerie
  */
@@ -132,36 +130,36 @@ public class Gallery extends BaseFrame{
 		add(screen,par);
 	}
 	/* Methode pour configurer le Screen */
-	public void configurateScreenPanel() {
+	private void configurateScreenPanel() {
 			screen.setLayout(new BorderLayout());
 			screen.setPreferredSize(new Dimension(LARGEUR,700));
 			screen.setBackground(Color.WHITE);
 	}	
 	/* Methode pour configurer le NorthPanel */
-	public void configurateNorthPanel() {
+	private void configurateNorthPanel() {
 			screen.add(northPanel, BorderLayout.NORTH);
 			northPanel.setPreferredSize(new Dimension(LARGEUR,40));
 			northPanel.setBackground(Color.WHITE);
 	}
 	/*Methode pour configurer le GalleryPanel */
-	public void configurateGalleryPanel() {
+	private void configurateGalleryPanel() {
 			screen.add(galleryPanel, BorderLayout.CENTER);
 			galleryPanel.setBackground(Color.WHITE);
 	}
 	/* Methode pour configurer le SouthPanel */
-	public void configurateSouthPanel() {
+	private void configurateSouthPanel() {
 			screen.add(southPanel, BorderLayout.SOUTH);
 			southPanel.setPreferredSize(new Dimension(LARGEUR,50));
 			southPanel.setBackground(Color.WHITE);
 	}
 	/* Methode pour ajouter le titre NorthPanel avec modification de la police et taille */
-	public void addTitelGalleryPanel() {
+	private void addTitelGalleryPanel() {
 			northPanel.add(galleryLabel, BorderLayout.CENTER);
 			Font font = new Font("Arial",Font.BOLD,32);
 			galleryLabel.setFont(font);
 	}
 	/* Configuration du bouton AddPictureButton */
-	public void configurateAddButton() {
+	private void configurateAddButton() {
 			southPanel.add(addPictureButton);
 			addPictureButton.setPreferredSize(new Dimension(40, 40));
 			addPictureButton.setContentAreaFilled(true);
@@ -171,35 +169,13 @@ public class Gallery extends BaseFrame{
 			/* Ajout de l'ActionListener au bouton */
 			addPictureButton.addActionListener(new AddClick());
 	}
-	/* Configuration du bouton DeletePictureButton */
-	public void configurateDeleteButton() {
-			southPanel.add(deletePictureButton);
-			deletePictureButton.setPreferredSize(new Dimension(40, 40));
-			deletePictureButton.setContentAreaFilled(true);
-			deletePictureButton.setBackground(Color.WHITE);
-			deletePictureButton.setBorderPainted(false);
-			deletePictureButton.setRolloverEnabled(false);
-			/* Ajout d'un ActionListener au bouton */
-			deletePictureButton.addActionListener(new DeleteClick());
-	}
 	/* Configuration du ScrollBar */
-	public void configurateScrollBar() {
+	private void configurateScrollBar() {
 			scrollBar = new JScrollPane(galleryPanel);
 			scrollBar.getVerticalScrollBar().setUnitIncrement(10);
 			scrollBar.getVerticalScrollBar().setPreferredSize(new Dimension(0,0));
 			scrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			screen.add(scrollBar);
-	}
-	/* Configuration du bouton BackButton */
-	public void configurateBackButton() {
-			northPanel.add(backButton, BorderLayout.WEST);
-			backButton.setPreferredSize(new Dimension(40, 40));
-			backButton.setContentAreaFilled(true);
-			backButton.setBackground(Color.WHITE);
-			backButton.setBorderPainted(false);
-			backButton.setRolloverEnabled(false);
-			/* Ajout d'un ActionListener au bouton */
-			backButton.addActionListener(new BackClick());
 	}
 	public void initializeGallery() {
 
@@ -252,7 +228,7 @@ public class Gallery extends BaseFrame{
 				}
 			});
 		}
-	}	
+	}
 	private class GalleryImageDisplayer extends BaseFrame {
 		
 		public GalleryImageDisplayer() {
@@ -270,44 +246,78 @@ public class Gallery extends BaseFrame{
 			addTitelGalleryPanel();
 			configurateScrollBar();
 			southPanel.remove(addPictureButton);
-			/* Renitialise la galerie d'image */
+			// Renitialise la galerie d'image 
 			galleryPanel.removeAll();
-			/* Ajout du bouton selectionne dans la fenetre */
+			// Ajout du bouton selectionne dans la fenetre 
 			galleryPanel.add(enlargedPictureButton);
 			add(screen,par);
 		}
-	}
-	private class DeleteClick implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-			int namePicture = indexSearch +1;
+		private class BackClick implements ActionListener {
+			public void actionPerformed(ActionEvent e){
 
-			if (e.getSource()== deletePictureButton) {
-				/* Affiche un Popup pour demander une confirmation de suppression */
-				Object[] options = {"OK", "Annuler"};
-                int choice = JOptionPane.showOptionDialog(null, "Voulez-vous vraiment supprimer cette image ?", "Attention",
-                  JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-
-                if (choice == 0) {
-                    if(namePicture < 10) {
-                	File f = new File("Images/Galerie/000" + namePicture + ".png");
-                	f.delete();
-                    Gallery frame = new Gallery();
-                    frame.setVisible(true);
-                    dispose();
-                    }
-                else {
-                	File f = new File("Images/Galerie/00" + namePicture + ".png");
-                    f.delete();
-                    Gallery frame = new Gallery();
-                    frame.setVisible(true);
-                    dispose();
-                    }
-                }
+				if(e.getSource() == backButton) {
+					Gallery frame = new Gallery();
+					frame.setVisible(true);
+					dispose();
+				}
 			}
 		}
-	}	
+		private class DeleteClick implements ActionListener {
+			public void actionPerformed(ActionEvent e){
+				/* Variable qui va permettre d'obtenir le nom de l'image dans le fichier */
+				int namePicture = indexSearch +1;
+
+				if (e.getSource()== deletePictureButton) {
+					/* Affiche un Popup pour demander une confirmation de suppression */
+					Object[] options = {"OK", "Annuler"};
+		               int choice = JOptionPane.showOptionDialog(null, "Voulez-vous vraiment supprimer cette image ?", "Attention",
+		               JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+		               if (choice == 0) {
+		                   if(namePicture < 10) {
+		                	   File f = new File("Images/Galerie/000" + namePicture + ".png");
+		                	   f.delete();
+		                	   Gallery frame = new Gallery();
+		                	   frame.setVisible(true);
+		                	   dispose();
+		                    }
+		                   else {
+		                	   File f = new File("Images/Galerie/00" + namePicture + ".png");
+		                	   f.delete();
+		                	   Gallery frame = new Gallery();
+		                	   frame.setVisible(true);
+		                	   dispose();
+		                }
+		            }
+				}
+			}
+		}	
+		/* Configuration du bouton BackButton */
+		protected void configurateBackButton() {
+			northPanel.add(backButton, BorderLayout.WEST);
+			backButton.setPreferredSize(new Dimension(40, 40));
+			backButton.setContentAreaFilled(true);
+			backButton.setBackground(Color.WHITE);
+			backButton.setBorderPainted(false);
+			backButton.setRolloverEnabled(false);
+			/* Ajout d'un ActionListener au bouton */
+			backButton.addActionListener(new BackClick());
+		}
+		/* Configuration du bouton DeletePictureButton */
+		private void configurateDeleteButton() {
+			southPanel.add(deletePictureButton);
+			deletePictureButton.setPreferredSize(new Dimension(40, 40));
+			deletePictureButton.setContentAreaFilled(true);
+			deletePictureButton.setBackground(Color.WHITE);
+			deletePictureButton.setBorderPainted(false);
+			deletePictureButton.setRolloverEnabled(false);
+			/* Ajout d'un ActionListener au bouton */
+			deletePictureButton.addActionListener(new DeleteClick());
+		}	
+	}
 	private class AddClick implements ActionListener {
-		public void actionPerformed(ActionEvent e){		
+		public void actionPerformed(ActionEvent e){
+			/* Variable qui attribue un nouveau nom aux images ajoutées */
 			int newName;
 			
 			if(e.getSource() == addPictureButton) {
@@ -349,19 +359,8 @@ public class Gallery extends BaseFrame{
 			}
 		}
 	}
-	private class BackClick implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-
-			if(e.getSource() == backButton) {
-				Gallery frame = new Gallery();
-				frame.setVisible(true);
-				dispose();
-				
-			}
-		}
-	}
 }
-
+	
 			
 
 
