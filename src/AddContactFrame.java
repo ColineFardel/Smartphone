@@ -82,8 +82,8 @@ public class AddContactFrame extends BaseFrame{
 		
 		screen.add(numField,par);
 		
-		save.addActionListener(new SaveListener());
-		cancel.addActionListener(new CancelListener());
+		save.addActionListener(new ButtonListener());
+		cancel.addActionListener(new ButtonListener());
 		
 		par.gridx = 0;
 		par.gridy = 4;
@@ -102,35 +102,36 @@ public class AddContactFrame extends BaseFrame{
 		screen.setBackground(Color.WHITE);
 		add(screen,par);
 	}
-	
-	class SaveListener implements ActionListener{
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
+	class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			
-			ArrayList<Contact> contacts= readContacts();
-			String parameter = readParameter();
-			
-			Contact contact = new Contact(nomField.getText(),prenomField.getText(),numField.getText());
-			contacts.add(contact);
-			
-			writeContacts(contacts);
-			if(parameter.equals("lastname")) {
-				sortByLastName();
+			if(e.getSource()==save) {
+				ArrayList<Contact> contacts= readContacts();
+				String parameter = readParameter();
+				
+				Contact contact = new Contact(nomField.getText(),prenomField.getText(),numField.getText());
+				contacts.add(contact);
+				
+				writeContacts(contacts);
+				if(parameter.equals("lastname")) {
+					sortByLastName();
+				}
+				else {
+					sortByFirstName();
+				}
+				
+				JFrame frame = new ContactFrame();
+				frame.setVisible(true);
+				dispose();
 			}
-			else {
-				sortByFirstName();
+			if(e.getSource()==cancel) {
+				JFrame frame = new ContactFrame();
+				frame.setVisible(true);
+				dispose();
 			}
-			
-			
-			JFrame frame = new ContactFrame();
-			frame.setVisible(true);
-			dispose();
-		}
-	}
-	class CancelListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			JFrame frame = new ContactFrame();
-			frame.setVisible(true);
-			dispose();
 		}
 	}
 }

@@ -1,12 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 /*
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 03.06.2019
- * Date last modification: 03.06.2019
+ * Date last modification: 04.06.2019
  */
 public class NoteFrame extends BaseFrame{
 	private JPanel screen = new JPanel();
@@ -26,7 +28,6 @@ public class NoteFrame extends BaseFrame{
 	private String file="";
 	private File f;
 	
-	
 	public NoteFrame(String fileContent) {
 		screen.setLayout(new GridBagLayout());
 		
@@ -37,16 +38,12 @@ public class NoteFrame extends BaseFrame{
 			
 			if(f.exists()) {
 				sortie=readTxt(filePath);
-				System.out.println("sortie "+sortie);
-				System.out.println("filecontent"+fileContent);
 				if(sortie.equals(fileContent)) {
-				System.out.print("Dans le if");
 				file=filePath;
 				i=100;
 				}
 			}
 		}
-		
 		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
 		title.setForeground(Color.WHITE);
 		topPanel.setBackground(Color.GREEN);
@@ -89,9 +86,14 @@ public class NoteFrame extends BaseFrame{
 		screen.setBackground(Color.WHITE);
 		add(screen,par);
 	}
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
 	class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==save) {
+				writeTxt(note.getText(), file);
 				JFrame frame = new NotesFrame();
 				frame.setVisible(true);
 				dispose();
@@ -102,12 +104,21 @@ public class NoteFrame extends BaseFrame{
 				dispose();
 			}
 			if(e.getSource()==delete) {
+				ArrayList<Contact> contacts = readContacts();
+				for(int i=0;i<contacts.size();i++) {
+					if(contacts.get(i).getNote()!=null) {
+						if(contacts.get(i).getNote().equals(file)) {
+							contacts.get(i).setNote(null);
+							writeContacts(contacts);
+							i=100;
+						}
+					}
+				}
 				f.delete();
 				JFrame frame = new NotesFrame();
 				frame.setVisible(true);
 				dispose();
 			}
 		}
-		
 	}
 }

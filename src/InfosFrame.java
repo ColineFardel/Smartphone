@@ -17,10 +17,10 @@ public class InfosFrame extends BaseFrame{
 	private JPanel firstNamePanel = new JPanel();
 	private JPanel lastNamePanel = new JPanel();
 	private JPanel numberPanel = new JPanel();
+	private JPanel notePanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	private JPanel photoPanel = new JPanel();
 	private JPanel blankPanel = new JPanel();
-	//private JPanelWithBackground image;
 	
 	private JTextArea firstName;
 	private JTextArea lastName;
@@ -29,21 +29,30 @@ public class InfosFrame extends BaseFrame{
 	private JLabel firstNameLabel = new JLabel("Prénom : ");
 	private JLabel lastNameLabel = new JLabel("Nom : ");
 	private JLabel numberLabel = new JLabel("Numéro : ");
+	private JLabel noteLabel = new JLabel("Note : ");
 	
 	private Contact contact;
 	
 	private JButton save = new JButton("Sauvegarder");
 	private JButton delete = new JButton("Supprimer");
 	private JButton cancel = new JButton("Annuler");
+	private JButton addNote = new JButton("Ajouter une note au contact");
+	private JButton noteButton = new JButton("Note");
 	private JButton image;
+	
+	private String filePath="";
+	private String contactNote="";
 	
 	private ArrayList<Contact> contacts;
 	private String parameter;
 	
-	private Font base = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+	private Font base = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	private Font buttonFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
 	
 	public InfosFrame(String selectedContact) {
+		contactNote=selectedContact;
+		//filePath=notePath;
+		
 		contacts = readContacts();
 		parameter = readParameter();
 		
@@ -87,7 +96,14 @@ public class InfosFrame extends BaseFrame{
 		number.setFont(base);
 		numberLabel.setFont(base);
 		
-		infos.setLayout(new GridLayout(3, 2, 50, 50));
+		noteLabel.setFont(base);
+		noteButton.setFont(base);
+		//addNote.setFont(base);
+		
+		noteButton.addActionListener(new ButtonListener());
+		addNote.addActionListener(new ButtonListener());
+		
+		infos.setLayout(new GridLayout(4, 2, 50, 50));
 		infos.setBackground(Color.WHITE);
 		
 		infos.add(firstNameLabel);
@@ -96,13 +112,21 @@ public class InfosFrame extends BaseFrame{
 		infos.add(lastName);
 		infos.add(numberLabel);
 		infos.add(number);
+		infos.add(noteLabel);
+		//System.out.println(contact.getNote());
+		if(contact.getNote()== null) {
+			infos.add(addNote);
+		}
+		else {
+			infos.add(noteButton);
+		}
 		
 		screen.add(infos);
 		
 		blankPanel.setPreferredSize(new Dimension(LARGEUR,100));
 		blankPanel.setBackground(Color.WHITE);
 		
-		screen.add(blankPanel);
+		//screen.add(blankPanel);
 		
 		save.addActionListener(new ButtonListener());
 		save.setFont(buttonFont);
@@ -125,12 +149,26 @@ public class InfosFrame extends BaseFrame{
 		screen.setBackground(Color.WHITE);
 		add(screen,par);
 	}
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
 	class ButtonListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			//contacts=readContacts();
+			if(e.getSource()==noteButton) {
+				JFrame frame = new NoteFrame(readTxt(contact.getNote()));
+				frame.setVisible(true);
+				dispose();
+			}
+			if(e.getSource()==addNote) {
+				JFrame frame = new NotesFrame(contact,index);
+				frame.setVisible(true);
+				dispose();
+			}
 			if(e.getSource()==save) {
 				Contact c = new Contact(lastName.getText(),firstName.getText(),number.getText());
+				
 				contacts.set(index, c);
 				writeContacts(contacts);
 				
@@ -152,6 +190,5 @@ public class InfosFrame extends BaseFrame{
 				dispose();
 			}
 		}
-		
 	}
 }

@@ -2,19 +2,18 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 30.04.2019
- * Date last modification: 27.05.2019
+ * Date last modification: 04.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-
+import java.util.*;
 import javax.swing.*;
-
+import javax.swing.Timer;
+/**
+ * Frame used by all of the other frames as a template
+ * @author Coline Fardel
+ */
 public class BaseFrame extends JFrame{
 
 	protected final int LARGEUR = 480;
@@ -27,7 +26,7 @@ public class BaseFrame extends JFrame{
 	
 	private JButton homeButton = new JButton(new ImageIcon("Images//home-icon-silhouette.png"));
 	//<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	private JButton closeButton = new JButton(new ImageIcon("Images//power2.png"));
+	private JButton closeButton = new JButton(new ImageIcon("Images//close.png"));
 	//<div>Icons made by <a href="https://www.flaticon.com/<?=_('authors').'/'?>freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	public BaseFrame(){		
@@ -52,15 +51,18 @@ public class BaseFrame extends JFrame{
 		par.gridx = 0;
 		par.gridy = 1;
 		
-		homeButton.addActionListener(new HomeListener());
+		homeButton.addActionListener(new ButtonListener());
 		homeButton.setPreferredSize(new Dimension(40,40));
 		homeButton.setOpaque(false);
 		homeButton.setContentAreaFilled(false);
 		homeButton.setBorderPainted(false);
 		botPannel.add(homeButton);
 		
-		closeButton.addActionListener(new CloseListener());
+		closeButton.addActionListener(new ButtonListener());
 		closeButton.setPreferredSize(new Dimension(40,40));
+		closeButton.setOpaque(false);
+		closeButton.setContentAreaFilled(false);
+		closeButton.setBorderPainted(false);
 		closeButton.setBackground(Color.BLACK);
 		botPannel.add(closeButton);
 		
@@ -73,20 +75,26 @@ public class BaseFrame extends JFrame{
 		botPannel.setBackground(Color.BLACK);
 		add(botPannel,par);
 	}
-	
-	class HomeListener implements ActionListener{
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
+	class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			JFrame frame = new HomeFrame();
-			frame.setVisible(true);
-			dispose();
+			if(e.getSource()==closeButton) {
+				System.exit(0);
+			}
+			if(e.getSource()==homeButton) {
+				JFrame frame = new HomeFrame();
+				frame.setVisible(true);
+				dispose();
+			}
 		}
 	}
-	class CloseListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
-		}
-	}
-	
+	/**
+	 * Class for the time
+	 * @author Coline Fardel
+	 */
 	class ClockLabel extends JLabel implements ActionListener 
   	{
 		public ClockLabel( ) {
@@ -98,8 +106,10 @@ public class BaseFrame extends JFrame{
 			setText(String.format("%tR", Calendar.getInstance()));
 			}
 		}
-	
-	//Methodes
+	/**
+	 * Read the ser file where all the contacts are
+	 * @return the list of contacts
+	 */
 	public ArrayList<Contact> readContacts(){
 		ArrayList<Contact> contacts= new ArrayList<Contact>();
 		
@@ -113,7 +123,10 @@ public class BaseFrame extends JFrame{
 			}
 		return contacts;
 	}
-	
+	/**
+	 * Write the contacts in the ser file
+	 * @param contacts
+	 */
 	public void writeContacts(ArrayList<Contact> contacts){
 		try {
 			FileOutputStream out = new FileOutputStream("contacts.ser");
@@ -125,6 +138,10 @@ public class BaseFrame extends JFrame{
 				System.out.println("Erreur dans l'ecriture des contacts");
 			}
 	}
+	/**
+	 * Read the ser file where the parameter for the sorting is
+	 * @return the parameter
+	 */
 	public String readParameter() {
 		String parameter="";
 		
@@ -138,6 +155,10 @@ public class BaseFrame extends JFrame{
 			}
 		return parameter;
 	}
+	/**
+	 * Write the parameter in the ser file
+	 * @param parameter
+	 */
 	public void writeParameter(String parameter) {
 		try {
 			FileOutputStream out = new FileOutputStream("parameter.ser");
@@ -149,6 +170,9 @@ public class BaseFrame extends JFrame{
 				System.out.println("Erreur dans l'ecriture du parametre");
 			}
 	}
+	/**
+	 * Sort the list of contacts by the first name
+	 */
 	public void sortByFirstName() {
 		ArrayList<Contact> contacts = readContacts();
     	ArrayList<String> sorted = new ArrayList<String>();
@@ -170,6 +194,9 @@ public class BaseFrame extends JFrame{
 		}
 		writeContacts(contacts);
 	}
+	/**
+	 * Sort the list of contacts by the last name
+	 */
 	public void sortByLastName() {
 		ArrayList<Contact> contacts = readContacts();
     	ArrayList<String> sorted = new ArrayList<String>();
@@ -191,9 +218,14 @@ public class BaseFrame extends JFrame{
 		}
 		writeContacts(contacts);
 	}
-	public String readTxt(String path) {
+	/**
+	 * Read a text file
+	 * @param filePath the path of the file
+	 * @return what is written in the file
+	 */
+	protected String readTxt(String filePath) {
 		String sortie="";
-		try (FileReader reader = new FileReader(path);
+		try (FileReader reader = new FileReader(filePath);
 	             BufferedReader br = new BufferedReader(reader)) {
 
 	            // read line by line
@@ -203,8 +235,32 @@ public class BaseFrame extends JFrame{
 	            }
 
 	        } catch (IOException e) {
-	            System.err.format("IOException: %s%n", e);
+	        	System.err.print("Erreur lors de la lecture du fichier texte");
 	        }
 		return sortie;
+	}
+	/**
+	 * Create a text file
+	 * @param text what we want to write in the file
+	 * @param filePath the path of the file
+	 */
+	protected void writeTxt(String text,String filePath) {
+		File f;
+		PrintWriter printer;
+		BufferedWriter writer;			
+		try {
+			printer = new PrintWriter(filePath, "UTF-8");
+			printer.write(text);
+			printer.close();
+			} catch (Exception e2) {
+				System.out.print("Une erreur s'est produite lors de la création du fichier texte");
+				}
+		try {
+			writer = new BufferedWriter(new FileWriter(filePath));
+			writer.write(text);
+			writer.close();
+			} catch (Exception e2) {
+				System.out.print("Une erreur s'est produite lors de l'écriture dans le fichier texte");
+				}
 	}
 }

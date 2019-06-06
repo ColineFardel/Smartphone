@@ -10,7 +10,10 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.border.Border;
-
+/**
+ * Frame for the home screen
+ * @author Coline Fardel
+ */
 public class HomeFrame extends BaseFrame{
 	
 	private JPanelWithBackground screen;
@@ -25,7 +28,7 @@ public class HomeFrame extends BaseFrame{
 		try {
 			screen = new JPanelWithBackground("Images//wallpaper1.jpg");
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("Erreur dans l'affichage du fond d'écran");
 		}
 		screen.setLayout(new FlowLayout(0,50,50));
 		
@@ -56,6 +59,10 @@ public class HomeFrame extends BaseFrame{
 		screen.setPreferredSize(new Dimension(LARGEUR,700));
 		add(screen,par);
 	}
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
 	class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==contactButton) {
@@ -64,9 +71,9 @@ public class HomeFrame extends BaseFrame{
 				dispose();
 			}
 			if(e.getSource()==galleryButton) {
-				//JFrame frame = new Gallery();
-				//frame.setVisible(true);
-				//dispose();
+				JFrame frame = new Gallery();
+				frame.setVisible(true);
+				dispose();
 			}
 			if(e.getSource()==noteButton) {
 				JFrame frame = new NotesFrame();
