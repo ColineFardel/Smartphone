@@ -2,7 +2,7 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 23.04.2019
- * Date last modification: 27.05.2019
+ * Date last modification: 07.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -19,14 +19,12 @@ public class HomeFrame extends BaseFrame{
 	private JPanelWithBackground screen;
 	
 	private JButton contactButton= new JButton(new ImageIcon("Images//phone-book.png"));
-	//<div>Icons made by <a href="https://www.flaticon.com/authors/chanut" title="Chanut">Chanut</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	private JButton galleryButton= new JButton(new ImageIcon("Images//landscape.png"));
-	//<div>Icons made by <a href="https://www.flaticon.com/authors/bqlqn" title="bqlqn">bqlqn</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	private JButton noteButton = new JButton(new ImageIcon("Images//notepad.png"));
 	
 	public HomeFrame() {
 		try {
-			screen = new JPanelWithBackground("Images//wallpaper1.jpg");
+			screen = new JPanelWithBackground("Images//wallpaper.jpg");
 		} catch (Exception e) {
 			System.err.println("Erreur dans l'affichage du fond d'écran");
 		}

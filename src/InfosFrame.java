@@ -2,13 +2,16 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 13.04.2019
- * Date last modification: 27.05.2019
+ * Date last modification: 07.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
-
+/**
+ * Class that show all the infos of a contact
+ * @author Coline Fardel
+ */
 public class InfosFrame extends BaseFrame{
 	private int index=0;
 	
@@ -51,7 +54,6 @@ public class InfosFrame extends BaseFrame{
 	
 	public InfosFrame(String selectedContact) {
 		contactNote=selectedContact;
-		//filePath=notePath;
 		
 		contacts = readContacts();
 		parameter = readParameter();
@@ -98,7 +100,6 @@ public class InfosFrame extends BaseFrame{
 		
 		noteLabel.setFont(base);
 		noteButton.setFont(base);
-		//addNote.setFont(base);
 		
 		noteButton.addActionListener(new ButtonListener());
 		addNote.addActionListener(new ButtonListener());
@@ -113,7 +114,6 @@ public class InfosFrame extends BaseFrame{
 		infos.add(numberLabel);
 		infos.add(number);
 		infos.add(noteLabel);
-		//System.out.println(contact.getNote());
 		if(contact.getNote()== null) {
 			infos.add(addNote);
 		}
@@ -125,8 +125,6 @@ public class InfosFrame extends BaseFrame{
 		
 		blankPanel.setPreferredSize(new Dimension(LARGEUR,100));
 		blankPanel.setBackground(Color.WHITE);
-		
-		//screen.add(blankPanel);
 		
 		save.addActionListener(new ButtonListener());
 		save.setFont(buttonFont);

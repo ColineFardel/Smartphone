@@ -2,11 +2,14 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 06.05.2019
- * Date last modification: 14.05.2019
+ * Date last modification: 07.06.2019
  */
 import java.io.Serializable;
 import javax.swing.ImageIcon;
-
+/**
+ * Class of the contacts
+ * @author Coline Fardel
+ */
 public class Contact implements Serializable{
 	private String lastname;
 	private String firstname;

@@ -2,14 +2,17 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 06.05.2019
- * Date last modification: 21.05.2019
+ * Date last modification: 07.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
-
+/**
+ * Class to add a contact
+ * @author Coline Fardel
+ */
 public class AddContactFrame extends BaseFrame{
 	private JPanel screen = new JPanel();
 	private JPanel topPanel = new JPanel();

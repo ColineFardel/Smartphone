@@ -2,7 +2,7 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 30.04.2019
- * Date last modification: 04.06.2019
+ * Date last modification: 07.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -25,9 +25,7 @@ public class BaseFrame extends JFrame{
 	private ClockLabel clock = new ClockLabel();
 	
 	private JButton homeButton = new JButton(new ImageIcon("Images//home-icon-silhouette.png"));
-	//<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	private JButton closeButton = new JButton(new ImageIcon("Images//close.png"));
-	//<div>Icons made by <a href="https://www.flaticon.com/<?=_('authors').'/'?>freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	public BaseFrame(){		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -66,7 +64,6 @@ public class BaseFrame extends JFrame{
 		closeButton.setBackground(Color.BLACK);
 		botPannel.add(closeButton);
 		
-		//setBackground(new Color(0,0,0,0));
 		par.gridx = 0;
 		par.gridy = 2;
 		

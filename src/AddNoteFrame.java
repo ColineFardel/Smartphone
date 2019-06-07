@@ -1,12 +1,16 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
 /*
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 28.05.2019
- * Date last modification: 04.06.2019
+ * Date last modification: 07.06.2019
+ */
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.swing.*;
+/**
+ * Class to add a note
+ * @author Coline Fardel
  */
 public class AddNoteFrame extends BaseFrame{
 	private String filename = "Note";
@@ -25,11 +29,7 @@ public class AddNoteFrame extends BaseFrame{
 	private String fileName = "Notes//Note";
 	private String filePath;
 	
-	//private FileInputStream fis;
-	//private FileOutputStream fos;
 	private File f;
-	//private BufferedWriter writer;
-	//private PrintWriter printer;
 	private Contact c;
 	private int index;
 	/**
@@ -126,6 +126,10 @@ public class AddNoteFrame extends BaseFrame{
 		screen.setBackground(Color.WHITE);
 		add(screen,par);
 	}
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
 	class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==save) {

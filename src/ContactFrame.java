@@ -2,27 +2,26 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 06.05.2019
- * Date last modification: 27.05.2019
+ * Date last modification: 07.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
-
+/**
+ * Class that show all the contacts
+ * @author Coline Fardel
+ *
+ */
 public class ContactFrame extends BaseFrame{
 	
 	private JList list;
 	private DefaultListModel listModel= new DefaultListModel();
 	
 	private JButton plusButton = new JButton(new ImageIcon("Images//add.png"));
-	//<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	private JButton moreButton = new JButton(new ImageIcon("Images//threedots.png"));
-	//<div>Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 	
 	private JPanel screen = new JPanel();
 	private JPanel topJPanel = new JPanel();
@@ -56,13 +55,13 @@ public class ContactFrame extends BaseFrame{
 		plusButton.setContentAreaFilled(false);
 		plusButton.setBorderPainted(false);
 		plusButton.setPreferredSize(new Dimension(40,40));
-		plusButton.addActionListener(new PlusListener());
+		plusButton.addActionListener(new ButtonListener());
 		
 		moreButton.setOpaque(false);
 		moreButton.setContentAreaFilled(false);
 		moreButton.setBorderPainted(false);
 		moreButton.setPreferredSize(new Dimension(40,40));
-		moreButton.addActionListener(new MoreListener());
+		moreButton.addActionListener(new ButtonListener());
 		
 		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 60));
 		
@@ -119,20 +118,27 @@ public class ContactFrame extends BaseFrame{
 		screen.setBackground(Color.WHITE);
 		add(screen,par);
 	}
-	
-	class PlusListener implements ActionListener{
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
+	class ButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			JFrame frame = new AddContactFrame();
-			frame.setVisible(true);
-			dispose();
+			if(e.getSource()==plusButton) {
+				JFrame frame = new AddContactFrame();
+				frame.setVisible(true);
+				dispose();
+			}
+			if(e.getSource()==moreButton) {
+				JFrame frame = new ParameterFrame();
+				frame.setVisible(true);
+			}
 		}
 	}
-	class MoreListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			JFrame frame = new ParameterFrame();
-			frame.setVisible(true);
-		}
-	}
+	/**
+	 * Class to select the parameter of the sorting
+	 * @author Coline Fardel
+	 */
 	class ParameterFrame extends JFrame{
 		private JList list;
 		private DefaultListModel listModel= new DefaultListModel();
@@ -178,11 +184,9 @@ public class ContactFrame extends BaseFrame{
 				dispose();
 		      }
 		    });
-			
 			parameterPanel.add(list);
 			parameterPanel.setBackground(Color.WHITE);
 			add(parameterPanel); 
-			
 		}
 	}
 }

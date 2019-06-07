@@ -1,14 +1,18 @@
+/*
+ * Project POO Smartphone
+ * Author: Coline Fardel
+ * Date creation: 03.06.2019
+ * Date last modification: 07.06.2019
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
-/*
- * Project POO Smartphone
- * Author: Coline Fardel
- * Date creation: 03.06.2019
- * Date last modification: 04.06.2019
+/**
+ * Class that show a note
+ * @author Coline Fardel
  */
 public class NoteFrame extends BaseFrame{
 	private JPanel screen = new JPanel();

@@ -2,7 +2,7 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 27.05.2019
- * Date last modification: 03.06.2019
+ * Date last modification: 07.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +10,10 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
-
+/**
+ * Class that show all the notes
+ * @author Coline Fardel
+ */
 public class NotesFrame extends BaseFrame{
 	private JLabel title = new JLabel("Notes");
 	
@@ -181,18 +184,18 @@ public class NotesFrame extends BaseFrame{
 	    			i=100;
 	    			}
 	    		}	
-	    		selectedContact.setNote(file);
+	    		c.setNote(file);
 	    		ArrayList<Contact> contacts =readContacts();
-	    		contacts.set(contIndex, selectedContact);
+	    		contacts.set(index, c);
 	    		writeContacts(contacts);
 	    		String parameter = readParameter();
 	    		if(parameter.equals("firstname")) {
-	    			JFrame frame = new InfosFrame(selectedContact.getFirstname()+" "+selectedContact.getLastname());
+	    			JFrame frame = new InfosFrame(c.getFirstname()+" "+c.getLastname());
 					frame.setVisible(true);
 					dispose();
 	    		}
 	    		if(parameter.equals("lastname")) {
-	    			JFrame frame = new InfosFrame(selectedContact.getLastname()+" "+selectedContact.getFirstname());
+	    			JFrame frame = new InfosFrame(c.getLastname()+" "+c.getFirstname());
 					frame.setVisible(true);
 					dispose();
 	    		}
