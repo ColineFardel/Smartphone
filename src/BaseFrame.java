@@ -107,7 +107,7 @@ public class BaseFrame extends JFrame{
 	 * Read the ser file where all the contacts are
 	 * @return the list of contacts
 	 */
-	public ArrayList<Contact> readContacts(){
+	protected ArrayList<Contact> readContacts(){
 		ArrayList<Contact> contacts= new ArrayList<Contact>();
 		
 		try {
@@ -124,7 +124,7 @@ public class BaseFrame extends JFrame{
 	 * Write the contacts in the ser file
 	 * @param contacts
 	 */
-	public void writeContacts(ArrayList<Contact> contacts){
+	protected void writeContacts(ArrayList<Contact> contacts){
 		try {
 			FileOutputStream out = new FileOutputStream("contacts.ser");
 			ObjectOutputStream oos = new ObjectOutputStream( out );
@@ -139,7 +139,7 @@ public class BaseFrame extends JFrame{
 	 * Read the ser file where the parameter for the sorting is
 	 * @return the parameter
 	 */
-	public String readParameter() {
+	protected String readParameter() {
 		String parameter="";
 		
 		try {
@@ -156,7 +156,7 @@ public class BaseFrame extends JFrame{
 	 * Write the parameter in the ser file
 	 * @param parameter
 	 */
-	public void writeParameter(String parameter) {
+	protected void writeParameter(String parameter) {
 		try {
 			FileOutputStream out = new FileOutputStream("parameter.ser");
 			ObjectOutputStream oos = new ObjectOutputStream( out );
@@ -170,7 +170,7 @@ public class BaseFrame extends JFrame{
 	/**
 	 * Sort the list of contacts by the first name
 	 */
-	public void sortByFirstName() {
+	protected void sortByFirstName() {
 		ArrayList<Contact> contacts = readContacts();
     	ArrayList<String> sorted = new ArrayList<String>();
     	Contact tempContact = new Contact();
@@ -194,7 +194,7 @@ public class BaseFrame extends JFrame{
 	/**
 	 * Sort the list of contacts by the last name
 	 */
-	public void sortByLastName() {
+	protected void sortByLastName() {
 		ArrayList<Contact> contacts = readContacts();
     	ArrayList<String> sorted = new ArrayList<String>();
     	Contact tempContact = new Contact();

@@ -17,10 +17,6 @@ public class InfosFrame extends BaseFrame{
 	
 	private JPanel screen = new JPanel();
 	private JPanel infos = new JPanel();
-	private JPanel firstNamePanel = new JPanel();
-	private JPanel lastNamePanel = new JPanel();
-	private JPanel numberPanel = new JPanel();
-	private JPanel notePanel = new JPanel();
 	private JPanel buttonPanel = new JPanel();
 	private JPanel photoPanel = new JPanel();
 	private JPanel blankPanel = new JPanel();
@@ -43,11 +39,9 @@ public class InfosFrame extends BaseFrame{
 	private JButton noteButton = new JButton("Note");
 	private JButton image;
 	
-	private String filePath="";
-	private String contactNote="";
-	
 	private ArrayList<Contact> contacts;
 	private String parameter;
+	private String contactNote="";
 	
 	private Font base = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	private Font buttonFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
@@ -155,7 +149,7 @@ public class InfosFrame extends BaseFrame{
 
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==noteButton) {
-				JFrame frame = new NoteFrame(readTxt(contact.getNote()));
+				JFrame frame = new NoteFrame(readTxt(contact.getNote()),contact,index);
 				frame.setVisible(true);
 				dispose();
 			}

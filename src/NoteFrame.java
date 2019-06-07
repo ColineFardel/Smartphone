@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 /**
  * Class that show a note
@@ -32,7 +31,98 @@ public class NoteFrame extends BaseFrame{
 	private String file="";
 	private File f;
 	
+	private Contact contact;
+	private int index;
+	/**
+	 * Constructor to show a note
+	 * @param fileContent the content of the text
+	 */
 	public NoteFrame(String fileContent) {
+		constructorsParameters(fileContent);
+	}
+	/**
+	 * Constructor to show a note linked to a contact
+	 * @param fileContent the content of the text
+	 * @param c contact linked to the note
+	 * @param contIndex index of the contact
+	 */
+	public NoteFrame(String fileContent,Contact c,int contIndex) {
+		contact=c;
+		index=contIndex;
+		constructorsParameters(fileContent);
+	}
+	/**
+	 * Listener for the buttons
+	 * @author Coline Fardel
+	 */
+	class ButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource()==save) {
+				writeTxt(note.getText(), file);
+				if(contact==null) {
+					JFrame frame = new NotesFrame();
+					frame.setVisible(true);
+					dispose();
+				}
+				else {
+					openInfosFrame();
+				}
+			}
+			if(e.getSource()==cancel) {
+				if(contact==null) {
+					JFrame frame = new NotesFrame();
+					frame.setVisible(true);
+					dispose();
+				}
+				else {
+					openInfosFrame();
+				}
+			}
+			if(e.getSource()==delete) {
+				ArrayList<Contact> contacts = readContacts();
+				for(int i=0;i<contacts.size();i++) {
+					if(contacts.get(i).getNote()!=null) {
+						if(contacts.get(i).getNote().equals(file)) {
+							contacts.get(i).setNote(null);
+							writeContacts(contacts);
+							i=100;
+						}
+					}
+				}
+				f.delete();
+				
+				if(contact==null) {
+					JFrame frame = new NotesFrame();
+					frame.setVisible(true);
+					dispose();
+				}
+				else {
+					openInfosFrame();
+				}
+			}
+		}
+	}
+	/**
+	 * Open the frame infos of the contact linked with the note
+	 */
+	public void openInfosFrame() {
+		String parameter = readParameter();
+		if(parameter.equals("firstname")) {
+			JFrame frame = new InfosFrame(contact.getFirstname()+" "+contact.getLastname());
+			frame.setVisible(true);
+			dispose();
+		}
+		if(parameter.equals("lastname")) {
+			JFrame frame = new InfosFrame(contact.getLastname()+" "+contact.getFirstname());
+			frame.setVisible(true);
+			dispose();
+		}
+	}
+	/**
+	 * Set the parameters for the contructors
+	 * @param fileContent the content of the note
+	 */
+	public void constructorsParameters(String fileContent) {
 		screen.setLayout(new GridBagLayout());
 		
 		for(int i=1;i<100;i++) {
@@ -89,40 +179,5 @@ public class NoteFrame extends BaseFrame{
 		screen.setPreferredSize(new Dimension(LARGEUR,700));
 		screen.setBackground(Color.WHITE);
 		add(screen,par);
-	}
-	/**
-	 * Listener for the buttons
-	 * @author Coline Fardel
-	 */
-	class ButtonListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==save) {
-				writeTxt(note.getText(), file);
-				JFrame frame = new NotesFrame();
-				frame.setVisible(true);
-				dispose();
-			}
-			if(e.getSource()==cancel) {
-				JFrame frame = new NotesFrame();
-				frame.setVisible(true);
-				dispose();
-			}
-			if(e.getSource()==delete) {
-				ArrayList<Contact> contacts = readContacts();
-				for(int i=0;i<contacts.size();i++) {
-					if(contacts.get(i).getNote()!=null) {
-						if(contacts.get(i).getNote().equals(file)) {
-							contacts.get(i).setNote(null);
-							writeContacts(contacts);
-							i=100;
-						}
-					}
-				}
-				f.delete();
-				JFrame frame = new NotesFrame();
-				frame.setVisible(true);
-				dispose();
-			}
-		}
 	}
 }
