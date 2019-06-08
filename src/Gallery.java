@@ -1,11 +1,9 @@
-
 /*
  * Project POO Smartphone
  * Author: Ismaël Moreno
  * Date creation: 06.05.2019
  * Date last modification: 08.06.2019
  */
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -100,7 +98,7 @@ public class Gallery extends BaseFrame {
 	/**
 	 * Method to configure the GalleryPanel
 	 */
-	private void configurateGalleryPanel() {
+	protected void configurateGalleryPanel() {
 		screen.add(galleryPanel, BorderLayout.CENTER);
 		galleryPanel.setBackground(Color.WHITE);
 	}
