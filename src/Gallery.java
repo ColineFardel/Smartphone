@@ -14,7 +14,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
 
 import javax.swing.ImageIcon;
@@ -29,125 +28,101 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * Parametre pour la galerie photo
- **/
-
+ * This frame contain all the logic for the gallery
+ * @author ismor
+ *
+ */
 public class Gallery extends BaseFrame {
 
-	/* Declaration du MigLayout */
 	private MigLayout layout = new MigLayout("wrap 4");
-
-	/* Declaration des panels */
+	
 	private JPanel screen = new JPanel();
 	private JPanel galleryPanel = new JPanel();
 	private JPanel northPanel = new JPanel();
 	private JPanel southPanel = new JPanel();
-
-	/* Declaration de la barre de defilement */
+	
 	private JScrollPane scrollBar;
-
-	/* Declaration des boutons add/delete/back */
+	
 	private JButton addPictureButton = new JButton(new ImageIcon("Images/add.png"));
 	private JButton deletePictureButton = new JButton(new ImageIcon("Images/delete.png"));
 	private JButton backButton = new JButton(new ImageIcon("Images/backGallery.png"));
 
-	/* Declaration des labels */
 	private JLabel galleryLabel = new JLabel("Ma Galerie");
 
-	/* Declaration du fichier des images */
 	private File filePictures = new File("./Images/Galerie");
 
-	/* Tableau qui contient tous les chemins des images */
 	private String[] listPathPictures = filePictures.list();
 
-	/* ImageIcon qui represente chaque image dans la galerie */
 	private ImageIcon eachPicture;
 
-	/* Dimension des JButton contenant les ImageIcon */
 	private Dimension size = new Dimension(113, 113);
 
-	/* Tableau de boutons qui est de la meme longueur que le tableau listPathPictures */
 	private JButton[] buttonPicture = new JButton[listPathPictures.length];
 
-	/* Variable qui stock le nombre d'images dans le dossier */
 	private int numberOfPictures;
 
 	/**
-	 * Construction de la galerie
-	 */
-
+     * Builds the gallery screen panel
+     *
+     * @param frame which contains the gridbaglayout and all methods 
+     */
 	public Gallery() {
-		/* Parametrage du GridBagLayout herite de BaseFrame */
 		par.gridx = 0;
 		par.gridy = 1;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		/* Ajout du panel de fond via sa methode */
 		configurateScreenPanel();
-
-		/* Ajout d'un panel Nord via sa methode */
 		configurateNorthPanel();
-
-		/* Ajout d'un panel reserve a la galerie photo au Centre via sa methode */
 		configurateGalleryPanel();
-
-		/* Ajout d'un panel Sud pour les boutons via sa methode */
 		configurateSouthPanel();
-
-		/* Ajout du titre avec modification de la police et taille via sa methode */
 		addTitelGalleryPanel();
-
-		/* Ajout et modification du bouton Add via sa methode */
 		configurateAddButton();
-
-		/* Configuration du MigLayout */
 		galleryPanel.setLayout(layout);
-
-		/* Configuration du ScrollBar via sa methode */
 		configurateScrollBar();
-
-		/* Creation du tableau d'image depuis le dossier Galerie */
 		initializeGallery();
-
-		/* Ajout du Panel Screen et Par dans Gallery pour fixer le tout */
 		add(screen, par);
 	}
-
-	/* Methode pour configurer le Screen */
+	/**
+	 * Method to configure the screen
+	 */
 	private void configurateScreenPanel() {
 		screen.setLayout(new BorderLayout());
 		screen.setPreferredSize(new Dimension(LARGEUR, 700));
 		screen.setBackground(Color.WHITE);
 	}
-
-	/* Methode pour configurer le NorthPanel */
+	/**
+	 * Method to configure the NorthPanel
+	 */
 	private void configurateNorthPanel() {
 		screen.add(northPanel, BorderLayout.NORTH);
 		northPanel.setPreferredSize(new Dimension(LARGEUR, 40));
 		northPanel.setBackground(Color.WHITE);
 	}
-
-	/* Methode pour configurer le GalleryPanel */
+	/**
+	 * Method to configure the GalleryPanel
+	 */
 	private void configurateGalleryPanel() {
 		screen.add(galleryPanel, BorderLayout.CENTER);
 		galleryPanel.setBackground(Color.WHITE);
 	}
-
-	/* Methode pour configurer le SouthPanel */
+	/**
+	 * Method to configure the SouthPanel
+	 */
 	private void configurateSouthPanel() {
 		screen.add(southPanel, BorderLayout.SOUTH);
 		southPanel.setPreferredSize(new Dimension(LARGEUR, 50));
 		southPanel.setBackground(Color.WHITE);
 	}
-
-	/* Methode pour ajouter le titre NorthPanel avec modification de la police et taille */
+	/**
+	 * Method to add the NorthPanel title with font modification and size
+	 */
 	private void addTitelGalleryPanel() {
 		northPanel.add(galleryLabel, BorderLayout.CENTER);
 		Font font = new Font("Arial", Font.BOLD, 32);
 		galleryLabel.setFont(font);
 	}
-
-	/* Configuration du bouton AddPictureButton */
+	/**
+	 * Method to configure the AddPictureButton 
+	 */
 	private void configurateAddButton() {
 		southPanel.add(addPictureButton);
 		addPictureButton.setPreferredSize(new Dimension(40, 40));
@@ -155,11 +130,11 @@ public class Gallery extends BaseFrame {
 		addPictureButton.setBackground(Color.WHITE);
 		addPictureButton.setBorderPainted(false);
 		addPictureButton.setRolloverEnabled(false);
-		/* Ajout de l'ActionListener au bouton */
 		addPictureButton.addActionListener(new AddClick());
 	}
-
-	/* Configuration du ScrollBar */
+	/**
+	 * Method to configure the ScroolBar
+	 */
 	private void configurateScrollBar() {
 		scrollBar = new JScrollPane(galleryPanel);
 		scrollBar.getVerticalScrollBar().setUnitIncrement(20);
@@ -167,37 +142,35 @@ public class Gallery extends BaseFrame {
 		scrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		screen.add(scrollBar);
 	}
-
+	/**
+	 * Retrieves images from the folder and creates an array of buttons 
+	 */
 	public void initializeGallery() {
-
 		for (int i = 0; i < listPathPictures.length; i++) {
-
-			/* Defini le nombre d'image dans la galerie */
 			numberOfPictures = i;
-			/* Defini les images qu'il faut prendre dans le dossier Images */
 			eachPicture = new ImageIcon(filePictures + "/" + listPathPictures[i]);
-			/* Prend les images */
 			Image pic = eachPicture.getImage();
-			/* Regle les dimensions des images */
 			Image newPic = pic.getScaledInstance(113, 113, java.awt.Image.SCALE_SMOOTH);
-			/* Met chaque image dans un ImageIcon */
 			eachPicture = new ImageIcon(newPic);
-			/* Creation des boutons avec les ImageIcon a l'interieur */
 			buttonPicture[i] = new JButton(eachPicture);
-			/* Reglement de la dimension des boutons */
 			buttonPicture[i].setMaximumSize(size);
-			/* Ajout des boutons dans le panel qui a comme layout le MigLayout */
 			galleryPanel.add(buttonPicture[i]);
-			/* Récupere le chemin des images */
 			String imagePath = "./Images/Galerie/"+listPathPictures[i];
-			/* Ajout de MouseListener sur chaque bouton */
 			buttonPicture[i].addActionListener(new PictureButtonListener(imagePath));
+			}
 		}
-	}
-
+	/**
+	 * Builds the button listener of the enlarged image
+	 * @author Ismaël Moreno
+	 *
+	 */
 	class PictureButtonListener implements ActionListener {
 		private String imagePath;
 		
+		/**
+		 * Method that retrieves the path of the images
+		 * @param imagePath Retrieves the original path of the selected image
+		 */
 		public PictureButtonListener(String imagePath) {
 			this.imagePath = imagePath;
 		}
@@ -208,16 +181,20 @@ public class Gallery extends BaseFrame {
 			screen.removeAll();
 			GalleryImageDisplayer gid = new GalleryImageDisplayer(imagePath);
 			gid.setVisible(true);
-		}
-		
+		}	
 	}
-	private class GalleryImageDisplayer extends BaseFrame {
-
+	/**
+	 * Class that will recreate a gallery but with an enlarged image
+	 * @author Ismaël Moreno
+	 *
+	 */
+	class GalleryImageDisplayer extends BaseFrame {
+		/**
+		 * Builds the new frame for the enlarged image 
+		 * @param imagePath Retrieves the original path of the selected image
+		 */
 		public GalleryImageDisplayer(String imagePath) {
-			
-			/* Creer une ImageIcon depuis le chemin de l'image et la redimensionne */
 			ImageIcon icon = new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(450, 595, Image.SCALE_SMOOTH));
-			/* Creer un label et ajoute l'ImageIcon dedans */
 			JLabel imageLabel = new JLabel(icon);
 			par.gridx = 0;
 			par.gridy = 1;
@@ -233,13 +210,16 @@ public class Gallery extends BaseFrame {
 			addTitelGalleryPanel();
 			configurateScrollBar();
 			southPanel.remove(addPictureButton);
-			/* Renitialise la galerie d'image */
+			//Reset the image gallery
 			galleryPanel.removeAll();
-			/* Ajout du panel dans la fenetre */
 			galleryPanel.add(imageLabel);
 			add(screen, par);
 		}
-
+		/**
+		 * Class that allows you to close the frame of the enlarged image to return to the gallery
+		 * @author Ismaël Moreno
+		 *
+		 */
 		class BackClick implements ActionListener {
 			
 			@Override
@@ -252,10 +232,18 @@ public class Gallery extends BaseFrame {
 				}
 			}
 		}
-
-		private class DeleteClick implements ActionListener {
+		/**
+		 * Class that allows you to delete an image
+		 * @author Ismaël Moreno
+		 *
+		 */
+		class DeleteClick implements ActionListener {
 			String imagePath;
-
+			
+			/**
+			 * Deletes the image and refreshes the gallery
+			 * @param imagePath Retrieves the original path of the selected image
+			 */
 			public DeleteClick(String imagePath) {
 				this.imagePath = imagePath;
 			}
@@ -263,7 +251,7 @@ public class Gallery extends BaseFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource() == deletePictureButton) {
-					/* Affiche un Popup pour demander une confirmation de suppression */
+					//Displays a Popup to request confirmation of deletion
 					Object[] options = { "OK", "Annuler" };
 					int choice = JOptionPane.showOptionDialog(null, "Voulez-vous vraiment supprimer cette image ?",
 							"Attention", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
@@ -280,8 +268,9 @@ public class Gallery extends BaseFrame {
 				}
 			}
 		}
-
-		/* Configuration du bouton BackButton */
+		/**
+		 * Method to configure the BackButton
+		 */
 		private void configurateBackButton() {
 			northPanel.add(backButton, BorderLayout.WEST);
 			backButton.setPreferredSize(new Dimension(40, 40));
@@ -292,8 +281,10 @@ public class Gallery extends BaseFrame {
 			/* Ajout d'un ActionListener au bouton */
 			backButton.addActionListener(new BackClick());
 		}
-
-		/* Configuration du bouton DeletePictureButton */
+		/**
+		 * Method to configure the DeleteButton
+		 * @param imagePath Retrieves the original path of the selected image
+		 */
 		private void configurateDeleteButton(String imagePath) {
 			southPanel.add(deletePictureButton);
 			deletePictureButton.setPreferredSize(new Dimension(40, 40));
@@ -301,43 +292,35 @@ public class Gallery extends BaseFrame {
 			deletePictureButton.setBackground(Color.WHITE);
 			deletePictureButton.setBorderPainted(false);
 			deletePictureButton.setRolloverEnabled(false);
-			/* Ajout d'un ActionListener au bouton */
 			deletePictureButton.addActionListener(new DeleteClick(imagePath));
 		}
 	}
-
-	private class AddClick implements ActionListener {
+	/**
+	 * Class that allows you to add an image to the gallery
+	 * @author Ismaël Moreno
+	 *
+	 */
+	class AddClick implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			/* Variable qui attribue un nouveau nom aux images ajoutées */
 			int newName;
-
 			if (e.getSource() == addPictureButton) {
-				/* JFileChoose permettant d'avoir acces a l'explorateur windows */
 				JFileChooser chooser = new JFileChooser();
-				/* FileNameExtensionFilter qui permet de selectionner uniquement les fichiers .jpeg, .png & .jpg */
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG, PNG & JPG", "jpeg", "png", "jpg");
 				chooser.setDialogTitle("Choisissez une image");
 				chooser.setFileFilter(filter);
 				chooser.setSize(400, 400);
 				chooser.setPreferredSize(new Dimension(350, 400));
-				/* Fichier selectionne dans l'explorateur windows */
 				File selectedFile;
-				/* Contient la valeur que retourne le JFileChooser */
 				int returnVal = chooser.showOpenDialog(galleryPanel);
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					/* Stockage du fichier selectionne dans la variable selectedFile */
 					selectedFile = chooser.getSelectedFile();
-					/* Reprend le nombre d'image et ajoute 2 pour que la nouvelle image soit en dernière position */
 					newName = numberOfPictures + 2;
-					/* Creation d'un fichier sous Images au meme nom que le nom du fichier selectionne*/
 					if (newName < 10) {
 						File f = new File("Images/Galerie/000" + newName + ".png");
-						/* Renomme le chemin du selectedFile dans le but de le deplacer sous le dossier Images */
 						selectedFile.renameTo(f);
-						/* Rafraichi la frame */
 						Gallery frame = new Gallery();
 						frame.setVisible(true);
 						dispose();
