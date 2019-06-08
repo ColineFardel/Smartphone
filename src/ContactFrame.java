@@ -13,7 +13,6 @@ import javax.swing.event.*;
 /**
  * Class that show all the contacts
  * @author Coline Fardel
- *
  */
 public class ContactFrame extends BaseFrame{
 	
@@ -184,6 +183,7 @@ public class ContactFrame extends BaseFrame{
 				dispose();
 		      }
 		    });
+			setBackground(Color.WHITE);
 			parameterPanel.add(list);
 			parameterPanel.setBackground(Color.WHITE);
 			add(parameterPanel); 

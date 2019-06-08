@@ -36,46 +36,7 @@ public class AddNoteFrame extends BaseFrame{
 	 * Constructor to add a note
 	 */
 	public AddNoteFrame() {
-		screen.setLayout(new GridBagLayout());
-		
-		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
-		title.setForeground(Color.WHITE);
-		topPanel.setBackground(Color.GREEN);
-		topPanel.setPreferredSize(new Dimension(LARGEUR,100));
-		topPanel.add(title);
-		
-		par.gridx = 0;
-		par.gridy = 0;
-		
-		screen.add(topPanel,par);
-		
-		noTextArea.setPreferredSize(new Dimension(LARGEUR,500));
-		noTextArea.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-		noTextArea.setLineWrap(true);
-		
-		par.gridx = 0;
-		par.gridy = 1;
-		
-		screen.add(noTextArea,par);
-		
-		save.addActionListener(new ButtonListener());
-		cancel.addActionListener(new ButtonListener());
-		buttonPanel.add(save);
-		buttonPanel.add(cancel);
-		buttonPanel.setPreferredSize(new Dimension(LARGEUR,100));
-		buttonPanel.setBackground(Color.WHITE);
-		
-		par.gridx = 0;
-		par.gridy = 2;
-		
-		screen.add(buttonPanel,par);
-		
-		par.gridx = 0;
-		par.gridy = 1;
-		
-		screen.setPreferredSize(new Dimension(LARGEUR,700));
-		screen.setBackground(Color.WHITE);
-		add(screen,par);
+		constructorsParameters();
 	}
 	/**
 	 * Constructor to add a note linked with a contact
@@ -85,46 +46,7 @@ public class AddNoteFrame extends BaseFrame{
 	public AddNoteFrame(Contact contact,int contIndex) {
 		c=contact;
 		index=contIndex;
-		screen.setLayout(new GridBagLayout());
-		
-		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
-		title.setForeground(Color.WHITE);
-		topPanel.setBackground(Color.GREEN);
-		topPanel.setPreferredSize(new Dimension(LARGEUR,100));
-		topPanel.add(title);
-		
-		par.gridx = 0;
-		par.gridy = 0;
-		
-		screen.add(topPanel,par);
-		
-		noTextArea.setPreferredSize(new Dimension(LARGEUR,500));
-		noTextArea.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-		noTextArea.setLineWrap(true);
-		
-		par.gridx = 0;
-		par.gridy = 1;
-		
-		screen.add(noTextArea,par);
-		
-		save.addActionListener(new ButtonListener());
-		cancel.addActionListener(new ButtonListener());
-		buttonPanel.add(save);
-		buttonPanel.add(cancel);
-		buttonPanel.setPreferredSize(new Dimension(LARGEUR,100));
-		buttonPanel.setBackground(Color.WHITE);
-		
-		par.gridx = 0;
-		par.gridy = 2;
-		
-		screen.add(buttonPanel,par);
-		
-		par.gridx = 0;
-		par.gridy = 1;
-		
-		screen.setPreferredSize(new Dimension(LARGEUR,700));
-		screen.setBackground(Color.WHITE);
-		add(screen,par);
+		constructorsParameters();
 	}
 	/**
 	 * Listener for the buttons
@@ -158,5 +80,50 @@ public class AddNoteFrame extends BaseFrame{
 				dispose();
 			}
 		}
+	}
+	/**
+	 * Set the parameters for the contructors
+	 */
+	public void constructorsParameters() {
+		screen.setLayout(new GridBagLayout());
+		
+		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+		title.setForeground(Color.WHITE);
+		topPanel.setBackground(Color.GREEN);
+		topPanel.setPreferredSize(new Dimension(LARGEUR,100));
+		topPanel.add(title);
+		
+		par.gridx = 0;
+		par.gridy = 0;
+		
+		screen.add(topPanel,par);
+		
+		noTextArea.setPreferredSize(new Dimension(LARGEUR,500));
+		noTextArea.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+		noTextArea.setLineWrap(true);
+		
+		par.gridx = 0;
+		par.gridy = 1;
+		
+		screen.add(noTextArea,par);
+		
+		save.addActionListener(new ButtonListener());
+		cancel.addActionListener(new ButtonListener());
+		buttonPanel.add(save);
+		buttonPanel.add(cancel);
+		buttonPanel.setPreferredSize(new Dimension(LARGEUR,100));
+		buttonPanel.setBackground(Color.WHITE);
+		
+		par.gridx = 0;
+		par.gridy = 2;
+		
+		screen.add(buttonPanel,par);
+		
+		par.gridx = 0;
+		par.gridy = 1;
+		
+		screen.setPreferredSize(new Dimension(LARGEUR,700));
+		screen.setBackground(Color.WHITE);
+		add(screen,par);
 	}
 }
