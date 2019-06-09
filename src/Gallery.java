@@ -61,8 +61,6 @@ public class Gallery extends BaseFrame {
 
 	/**
      * Builds the gallery screen panel
-     *
-     * @param frame which contains the gridbaglayout and all methods 
      */
 	public Gallery() {
 		par.gridx = 0;
