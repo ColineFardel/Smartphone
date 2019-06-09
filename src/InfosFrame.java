@@ -2,7 +2,7 @@
  * Project POO Smartphone
  * Author: Coline Fardel
  * Date creation: 13.05.2019
- * Date last modification: 07.06.2019
+ * Date last modification: 09.06.2019
  */
 import java.awt.*;
 import java.awt.event.*;
