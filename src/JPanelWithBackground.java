@@ -17,7 +17,7 @@ public class JPanelWithBackground extends JPanel{
 	/**
 	 * Read an image
 	 * @param file path of the image
-	 * @throws IOException
+	 * @throws IOException exception register
 	 */
 	public JPanelWithBackground(String file) throws IOException{
 		img = ImageIO.read(new File(file));
