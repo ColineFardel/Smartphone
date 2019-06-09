@@ -27,7 +27,7 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * This frame contain all the logic for the gallery
- * @author ismor
+ * @author Ismaël Moreno
  *
  */
 public class Gallery extends BaseFrame {
