@@ -1,7 +1,7 @@
 /*
  * Project POO Smartphone
  * Author: Coline Fardel
- * Date creation: 13.04.2019
+ * Date creation: 13.05.2019
  * Date last modification: 07.06.2019
  */
 import java.awt.*;
@@ -160,7 +160,7 @@ public class InfosFrame extends BaseFrame{
 			}
 			if(e.getSource()==save) {
 				Contact c = new Contact(lastName.getText(),firstName.getText(),number.getText());
-				
+				c.setNote(contact.getNote());
 				contacts.set(index, c);
 				writeContacts(contacts);
 				
